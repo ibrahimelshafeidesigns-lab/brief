@@ -1,0 +1,13 @@
+<!doctype html><html dir="rtl" lang="ar"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>مطبخك – Kitchen brief</title></head><body style="margin:0;background:#f4f2ee;font:18px/1.5 system-ui,-apple-system,'Segoe UI',Tahoma,sans-serif">
+<p id="msg" style="padding:28px;text-align:center">جاري التحميل… · Loading…</p>
+<script>
+var EXEC_URL = "https://script.google.com/macros/s/AKfycbxCujiolNwem2ws-Sbxi5DTe8LMNHTqB68EwV-W-9Ptd6vuwHnWlhRhUf_IIdpKkG-e/exec";
+var b = new URLSearchParams(location.search).get('b');
+var msg = document.getElementById('msg');
+if (!b) { msg.textContent = 'الرابط ناقص · This link is not complete.'; }
+else fetch(EXEC_URL + '?html=' + encodeURIComponent(b)).then(function (r) { return r.json(); }).then(function (j) {
+  if (!j || !j.html) throw new Error('no page');
+  document.open(); document.write(j.html); document.close();
+})['catch'](function () { msg.textContent = 'مش قادرين نفتح الصفحة دلوقتي، جرّب تاني بعد شوية · Could not open the page, please try again.'; });
+</script></body></html>
