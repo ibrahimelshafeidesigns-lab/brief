@@ -139,13 +139,13 @@
       const key = [p.name, len, wid, t, p.material].join("|");
       const row = rows.get(key);
       if (row) row.qty += 1;
-      else rows.set(key, { name: p.name, qty: 1, length: len, width: wid, thickness: p.thickness || t, material: p.material, role: p.role || "other", edge_band: Array.isArray(p.edge_band) ? p.edge_band.join("، ") : (p.edge_band || "") });
+      else rows.set(key, { name: p.name, qty: 1, length: len, width: wid, thickness: p.thickness || t, material: p.material, role: (p.role || "other").replace(/\s+/g, "_"), edge_band: Array.isArray(p.edge_band) ? p.edge_band.join("، ") : (p.edge_band || "") });
     }
     return [...rows.values()];
   }
 
   function views(cab) {
-    const kind = p => /drawer_front/.test(p.role || "") ? "drawer" : isFront(p) ? "door" : isHardware(p) ? "hidden" : "panel";
+    const kind = p => /drawer.?front/.test(p.role || "") ? "drawer" : isFront(p) ? "door" : isHardware(p) ? "hidden" : "panel";
     const parts = cab.parts || [];
     return {
       front: { width: cab.width, height: cab.height, shapes: parts.map(p => ({ x: p.x, y: p.z, w: p.w, h: p.h, kind: kind(p), label: "" })) },

@@ -378,7 +378,7 @@
       {
        "key": "df0",
        "name": "وش درج",
-       "role": "drawer_front",
+       "role": "drawer front",
        "material": "PVC (Cream)",
        "thickness": 18,
        "x": 1.5,
@@ -420,7 +420,7 @@
       {
        "key": "df1",
        "name": "وش درج",
-       "role": "drawer_front",
+       "role": "drawer front",
        "material": "PVC (Cream)",
        "thickness": 18,
        "x": 1.5,
@@ -462,7 +462,7 @@
       {
        "key": "df2",
        "name": "وش درج",
-       "role": "drawer_front",
+       "role": "drawer front",
        "material": "PVC (Cream)",
        "thickness": 18,
        "x": 1.5,

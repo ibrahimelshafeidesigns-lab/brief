@@ -132,6 +132,20 @@ const DESIGN_SCHEMA = {
   }
 };
 
+// The catalog file also carries every preset's 3D parts for the library (about 1 MB). Claude only needs the types,
+// sizes and construction, so the parts, per-preset hardware and prices stay out of the prompt.
+export function promptCatalog(catalog) {
+  const { shop_items, cabinet_types, ...rest } = catalog;
+  return {
+    ...rest,
+    cabinet_types: (cabinet_types || []).map(({ presets, ...t }) => ({
+      ...t,
+      presets: (presets || []).map(({ parts, hardware, ...p }) => p)
+    })),
+    ...(Array.isArray(shop_items) ? { shop_items: shop_items.map(i => ({ name: i.name, code: i.code, unit: i.unit })) } : {})
+  };
+}
+
 function systemPrompt(rules) {
   return `You are the design assistant of a small Egyptian cabinetry and furniture workshop. The workshop owner talks to you on his phone. He is an experienced craftsman, not a computer user.
 
@@ -157,7 +171,7 @@ its size limits and allowed counts, using its construction numbers exactly (pane
 and drawer clearances, drawer box sizes, legs, shelves, edge banding by cabinet kind), so the cut list matches what
 Cabinet Maker would produce. Name each cabinet's parts after its type (e.g. "B1 جنب"). Still use the material ids from
 the shop rules in the cut list.
-${JSON.stringify(rules.catalog)}` : ""}`;
+${JSON.stringify(promptCatalog(rules.catalog))}` : ""}`;
 }
 
 async function design(history, rules) {

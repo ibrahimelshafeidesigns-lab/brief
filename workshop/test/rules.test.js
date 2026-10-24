@@ -39,3 +39,16 @@ test("the Cabinet Maker catalog reaches the rules and is re-read when it changes
   fs.utimesSync(file, new Date(), new Date(Date.now() + 5000));
   assert.equal((await loadRules()).catalog.cabinet_types.length, 4);
 });
+
+test("the prompt gets the catalog without the library's 3D parts", async () => {
+  const { promptCatalog } = await import("../server.js");
+  const catalog = JSON.parse(fs.readFileSync(new URL("./sample-catalog.json", import.meta.url)));
+  catalog.shop_items = [{ name: "مفصلة", code: "HNG", unit: "pc", price: 12 }];
+  const slim = promptCatalog(catalog);
+  const preset = slim.cabinet_types[0].presets[0];
+  assert.equal(preset.parts, undefined);
+  assert.equal(preset.width, 600);
+  assert.equal(slim.shop_items[0].price, undefined);
+  assert.ok(JSON.stringify(slim).length < JSON.stringify(catalog).length / 3);
+  assert.ok(catalog.cabinet_types[0].presets[0].parts.length > 0); // the library copy is untouched
+});
