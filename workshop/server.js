@@ -20,8 +20,29 @@ const client = new Anthropic();
 
 /* ---------- rules ---------- */
 
-async function loadRules() {
-  return JSON.parse(await fs.readFile(path.join(here, "rules.json"), "utf8"));
+// The Cabinet Maker plugin writes its cabinet catalog (types, presets, construction numbers, the owner's Settings) to
+// CATALOG_PATH every time it loads or a cabinet or setting changes. Read it again whenever the file changes.
+const CATALOG_PATH = process.env.CATALOG_PATH || "";
+let catalogCache = { mtime: 0, data: null };
+
+async function loadCatalog() {
+  if (!CATALOG_PATH) return null;
+  try {
+    const { mtimeMs } = await fs.stat(CATALOG_PATH);
+    if (mtimeMs !== catalogCache.mtime) {
+      catalogCache = { mtime: mtimeMs, data: JSON.parse(await fs.readFile(CATALOG_PATH, "utf8")) };
+    }
+  } catch (err) {
+    if (err.code !== "ENOENT") console.error("catalog:", err.message);
+    // a half-written file keeps the last good copy
+  }
+  return catalogCache.data;
+}
+
+export async function loadRules() {
+  const rules = JSON.parse(await fs.readFile(path.join(here, "rules.json"), "utf8"));
+  rules.catalog = await loadCatalog();
+  return rules;
 }
 
 // Checks Claude's parts against the shop rules in code, so a design never reaches the shop on the model's word alone.
@@ -32,7 +53,8 @@ export function checkOption(option, rules) {
   const c = rules.construction;
   for (const p of option.parts) {
     const label = `${p.name} (${p.length}×${p.width})`;
-    const mat = mats.get(p.material);
+    // Library cabinets carry Cabinet Maker's own material names; the plugin already chose them.
+    const mat = mats.get(p.material) || (option.source === "cabinet_maker" ? { id: p.material } : null);
     if (!mat) { problems.push(`${label}: خامة مش من خامات الورشة (${p.material})`); continue; }
     if (!(p.qty >= 1) || !Number.isInteger(p.qty)) problems.push(`${label}: العدد لازم رقم صحيح`);
     if (!(p.length > 0 && p.width > 0)) { problems.push(`${label}: مقاس غلط`); continue; }
@@ -42,7 +64,7 @@ export function checkOption(option, rules) {
     }
     if (p.role === "door" && Math.min(p.length, p.width) < c.min_door_width) problems.push(`${label}: الضلفة أضيق من ${c.min_door_width} مم`);
     if (p.role === "drawer_front" && Math.min(p.length, p.width) < c.min_drawer_front) problems.push(`${label}: وش الدرج أقل من ${c.min_drawer_front} مم`);
-    if (p.role === "door" && p.material !== "front") problems.push(`${label}: الضلف لازم PVC كريمي`);
+    if (p.role === "door" && p.material !== "front" && option.source !== "cabinet_maker") problems.push(`${label}: الضلف لازم PVC كريمي`);
   }
   return problems;
 }
@@ -127,7 +149,15 @@ For each option give:
 Never use a material that is not in the list. Every board part must fit the sheet (it may be turned). Split long parts and say so in the part name. Follow the construction numbers exactly (clearances, thicknesses, back in a groove).
 
 Shop rules (JSON, sizes in mm):
-${JSON.stringify({ sheet: rules.sheet, materials: rules.materials, construction: rules.construction, rules: rules.text_rules })}`;
+${JSON.stringify({ sheet: rules.sheet, materials: rules.materials, construction: rules.construction, rules: rules.text_rules })}${rules.catalog ? `
+
+Cabinet Maker catalog. This is the shop's own cabinet design program and it wins over the shop rules above wherever
+they differ. For any kitchen, wardrobe, vanity or other cabinet work, build each cabinet as one of these types, within
+its size limits and allowed counts, using its construction numbers exactly (panel and back thicknesses, groove, door
+and drawer clearances, drawer box sizes, legs, shelves, edge banding by cabinet kind), so the cut list matches what
+Cabinet Maker would produce. Name each cabinet's parts after its type (e.g. "B1 جنب"). Still use the material ids from
+the shop rules in the cut list.
+${JSON.stringify(rules.catalog)}` : ""}`;
 }
 
 async function design(history, rules) {
@@ -142,7 +172,8 @@ async function design(history, rules) {
     betas: ["server-side-fallback-2026-07-01"],
     fallbacks: "default",
     output_config: { effort: EFFORT, format: { type: "json_schema", schema: DESIGN_SCHEMA } },
-    system: systemPrompt(rules),
+    // The catalog is large and changes rarely: cache it so each design request only pays for the conversation.
+    system: [{ type: "text", text: systemPrompt(rules), cache_control: { type: "ephemeral" } }],
     messages: history
   });
   const msg = await stream.finalMessage();
@@ -207,7 +238,26 @@ async function handle(req, res) {
   if (!who) return send(res, 401, { error: "الرقم السري غلط" });
 
   if (url.pathname === "/api/me") return send(res, 200, { role: who });
-  if (url.pathname === "/api/rules" && req.method === "GET") return send(res, 200, await loadRules());
+  if (url.pathname === "/api/rules" && req.method === "GET") {
+    const { catalog, ...rules } = await loadRules();
+    rules.catalog_summary = catalog ? {
+      exported_at: catalog.exported_at || null,
+      plugin_version: catalog.plugin_version || null,
+      types: (catalog.cabinet_types || []).map(t => ({ id: t.id, name: t.name_ar || t.name, status: t.status, presets: (t.presets || []).length }))
+    } : null;
+    return send(res, 200, rules);
+  }
+
+  if (url.pathname === "/api/library" && req.method === "GET") {
+    const catalog = await loadCatalog();
+    return send(res, 200, { exported_at: catalog?.exported_at || null, types: catalog?.cabinet_types || [] });
+  }
+
+  if (url.pathname === "/api/check" && req.method === "POST") {
+    const { option } = await body(req);
+    if (!option?.parts) return send(res, 400, { error: "بيانات ناقصة" });
+    return send(res, 200, { problems: checkOption(option, await loadRules()) });
+  }
 
   if (url.pathname === "/api/design" && req.method === "POST") {
     if (who !== "owner") return send(res, 403, { error: "للمصمم بس" });
