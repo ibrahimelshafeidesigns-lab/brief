@@ -24,3 +24,18 @@ test("a door not in PVC is flagged", () => {
   const o = { parts: [{ name: "ضلفة", qty: 2, length: 700, width: 400, material: "carcass", role: "door" }] };
   assert.equal(checkOption(o, rules).length, 1);
 });
+
+test("the Cabinet Maker catalog reaches the rules and is re-read when it changes", async () => {
+  const os = await import("node:os");
+  const dir = fs.mkdtempSync(new URL("file://" + os.tmpdir() + "/cat-").pathname);
+  const file = dir + "/catalog.json";
+  fs.copyFileSync(new URL("./sample-catalog.json", import.meta.url), file);
+  process.env.CATALOG_PATH = file;
+  const { loadRules } = await import("../server.js?catalog");
+  assert.equal((await loadRules()).catalog.cabinet_types.length, 2);
+  const changed = JSON.parse(fs.readFileSync(file));
+  changed.cabinet_types.push({ id: "wall", name: "Wall cabinet", status: "ready" });
+  fs.writeFileSync(file, JSON.stringify(changed));
+  fs.utimesSync(file, new Date(), new Date(Date.now() + 5000));
+  assert.equal((await loadRules()).catalog.cabinet_types.length, 3);
+});

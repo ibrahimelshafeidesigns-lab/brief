@@ -31,6 +31,14 @@ designs but they come back slower), and `DATA_DIR` (`./data`).
 Testing without a key: `MOCK_DESIGN=test/sample-design.json npm start` returns a sample bed. `npm test` checks the
 rules.
 
+## Cabinet Maker cabinets (kept in sync)
+
+Set `CATALOG_PATH` to the catalog file that the Cabinet Maker plugin writes: its cabinet types, presets, construction
+numbers and the owner's Settings. The plugin rewrites the file whenever it loads and whenever a cabinet or setting
+changes. The app reads it again as soon as the file changes, with no restart. Claude builds cabinets from it, so a cut
+list follows Cabinet Maker's construction, and the Shop rules tab shows the cabinet list and when it last synced.
+Without `CATALOG_PATH` the app uses `rules.json` only.
+
 ## Run it on the shop computer (free)
 
 The app runs on a Windows computer that stays on. Tailscale Funnel gives it a free, fixed `https://` link that works on

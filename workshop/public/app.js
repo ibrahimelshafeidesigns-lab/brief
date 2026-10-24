@@ -164,6 +164,7 @@ function renderRules() {
   const r = state.rules;
   return `<div class="view"><h2>قواعد الورشة</h2><p class="sub">Claude بيمشي على القواعد دي، والتطبيق بيراجع كل قطعة عليها.</p>
     <div class="panel"><ul class="rules">${r.text_rules.map(x => `<li><span class="tick">✓</span>${esc(x)}</li>`).join("")}</ul></div>
+    ${r.catalog_summary ? `<div class="panel"><h4>دواليب Cabinet Maker</h4><p class="src" style="margin:0 0 8px">متزامنة مع البرنامج · آخر تحديث ${esc(new Date(r.catalog_summary.exported_at).toLocaleString("ar-EG", { day: "numeric", month: "long", hour: "numeric", minute: "2-digit" }))}</p><ul class="rules">${r.catalog_summary.types.map(t => `<li><span class="tick">${t.status === "planned" ? "○" : "✓"}</span><span>${esc(t.name)}${t.presets ? ` <span class="src">(${t.presets} مقاس جاهز)</span>` : ""}</span></li>`).join("")}</ul></div>` : `<p class="src">دواليب Cabinet Maker لسه مش متوصلة.</p>`}
     <div class="panel"><h4>الخامات</h4><ul class="rules">${r.materials.map(m => `<li><span class="tick">•</span><span><b>${esc(m.name)}</b> <span class="n">${m.thickness}</span> مم: ${esc(m.use)}</span></li>`).join("")}</ul></div></div>`;
 }
 function render() {

@@ -1,0 +1,9 @@
+{
+  "exported_at": "2026-10-24T04:30:00Z",
+  "plugin_version": "2.1.0-test",
+  "construction": { "panel_thickness": 18, "back_thickness": 5, "groove_depth": 7, "door_outer_clearance": 1.5 },
+  "cabinet_types": [
+    { "id": "base", "name": "Base cabinet", "name_ar": "دولاب أرضي", "status": "ready", "size_limits": { "width": [150, 1200], "height": [600, 900], "depth": [300, 650] }, "presets": [{ "name": "Base 60", "width": 600, "height": 774, "depth": 580 }] },
+    { "id": "island", "name": "Island cabinet", "name_ar": "جزيرة", "status": "ready", "presets": [] }
+  ]
+}

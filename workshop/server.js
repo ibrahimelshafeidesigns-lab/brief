@@ -20,8 +20,29 @@ const client = new Anthropic();
 
 /* ---------- rules ---------- */
 
-async function loadRules() {
-  return JSON.parse(await fs.readFile(path.join(here, "rules.json"), "utf8"));
+// The Cabinet Maker plugin writes its cabinet catalog (types, presets, construction numbers, the owner's Settings) to
+// CATALOG_PATH every time it loads or a cabinet or setting changes. Read it again whenever the file changes.
+const CATALOG_PATH = process.env.CATALOG_PATH || "";
+let catalogCache = { mtime: 0, data: null };
+
+async function loadCatalog() {
+  if (!CATALOG_PATH) return null;
+  try {
+    const { mtimeMs } = await fs.stat(CATALOG_PATH);
+    if (mtimeMs !== catalogCache.mtime) {
+      catalogCache = { mtime: mtimeMs, data: JSON.parse(await fs.readFile(CATALOG_PATH, "utf8")) };
+    }
+  } catch (err) {
+    if (err.code !== "ENOENT") console.error("catalog:", err.message);
+    // a half-written file keeps the last good copy
+  }
+  return catalogCache.data;
+}
+
+export async function loadRules() {
+  const rules = JSON.parse(await fs.readFile(path.join(here, "rules.json"), "utf8"));
+  rules.catalog = await loadCatalog();
+  return rules;
 }
 
 // Checks Claude's parts against the shop rules in code, so a design never reaches the shop on the model's word alone.
@@ -127,7 +148,15 @@ For each option give:
 Never use a material that is not in the list. Every board part must fit the sheet (it may be turned). Split long parts and say so in the part name. Follow the construction numbers exactly (clearances, thicknesses, back in a groove).
 
 Shop rules (JSON, sizes in mm):
-${JSON.stringify({ sheet: rules.sheet, materials: rules.materials, construction: rules.construction, rules: rules.text_rules })}`;
+${JSON.stringify({ sheet: rules.sheet, materials: rules.materials, construction: rules.construction, rules: rules.text_rules })}${rules.catalog ? `
+
+Cabinet Maker catalog. This is the shop's own cabinet design program and it wins over the shop rules above wherever
+they differ. For any kitchen, wardrobe, vanity or other cabinet work, build each cabinet as one of these types, within
+its size limits and allowed counts, using its construction numbers exactly (panel and back thicknesses, groove, door
+and drawer clearances, drawer box sizes, legs, shelves, edge banding by cabinet kind), so the cut list matches what
+Cabinet Maker would produce. Name each cabinet's parts after its type (e.g. "B1 جنب"). Still use the material ids from
+the shop rules in the cut list.
+${JSON.stringify(rules.catalog)}` : ""}`;
 }
 
 async function design(history, rules) {
@@ -142,7 +171,8 @@ async function design(history, rules) {
     betas: ["server-side-fallback-2026-07-01"],
     fallbacks: "default",
     output_config: { effort: EFFORT, format: { type: "json_schema", schema: DESIGN_SCHEMA } },
-    system: systemPrompt(rules),
+    // The catalog is large and changes rarely: cache it so each design request only pays for the conversation.
+    system: [{ type: "text", text: systemPrompt(rules), cache_control: { type: "ephemeral" } }],
     messages: history
   });
   const msg = await stream.finalMessage();
@@ -207,7 +237,15 @@ async function handle(req, res) {
   if (!who) return send(res, 401, { error: "الرقم السري غلط" });
 
   if (url.pathname === "/api/me") return send(res, 200, { role: who });
-  if (url.pathname === "/api/rules" && req.method === "GET") return send(res, 200, await loadRules());
+  if (url.pathname === "/api/rules" && req.method === "GET") {
+    const { catalog, ...rules } = await loadRules();
+    rules.catalog_summary = catalog ? {
+      exported_at: catalog.exported_at || null,
+      plugin_version: catalog.plugin_version || null,
+      types: (catalog.cabinet_types || []).map(t => ({ id: t.id, name: t.name_ar || t.name, status: t.status, presets: (t.presets || []).length }))
+    } : null;
+    return send(res, 200, rules);
+  }
 
   if (url.pathname === "/api/design" && req.method === "POST") {
     if (who !== "owner") return send(res, 403, { error: "للمصمم بس" });
