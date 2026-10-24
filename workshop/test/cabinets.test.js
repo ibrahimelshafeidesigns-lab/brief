@@ -41,3 +41,14 @@ test("size limits and the iso view", () => {
   assert.equal(opt.source, "cabinet_maker");
   assert.ok(opt.front.shapes.length > 0 && opt.parts3d.length === base60.parts.length);
 });
+test("doors keep Cabinet Maker's gaps and cut sizes when resized", () => {
+  const big = resize(base60, 900, 774, 580);
+  const [a, b] = [part(big, "door0"), part(big, "door1")];
+  assert.deepEqual([a.x, a.w, b.x, b.w], [1.5, 447, 451.5, 447]);
+  assert.equal(a.cut.width, 445);
+  assert.equal(a.cut.length, 625.5);
+  const doors = cutList(big).find(r => r.name === "ضلفة");
+  assert.deepEqual([doors.qty, doors.length, doors.width], [2, 625.5, 445]);
+  assert.equal(cutList(base60).find(r => r.name === "ضلفة").width, 295);
+  assert.equal(part(big, "sideL").cut.width, 562);
+});

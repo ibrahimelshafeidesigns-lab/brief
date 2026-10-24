@@ -124,10 +124,11 @@ function optionBody(o) {
       <div><b>~${esc(o.build_days)}</b><span>أيام شغل</span></div>
     </div>
     ${o.problems?.length ? `<div class="panel"><h4>ملاحظات على القواعد</h4><ul class="rules">${o.problems.map(p => `<li><span class="tick" style="color:var(--warn)">!</span>${esc(p)}</li>`).join("")}</ul></div>` : ""}
-    <div class="panel"><h4>قائمة التقطيع</h4><div class="tablewrap"><table>
-      <thead><tr><th>القطعة</th><th class="num">العدد</th><th class="num">طول</th><th class="num">عرض</th><th>الخامة</th><th>شريط حرف</th></tr></thead>
-      <tbody>${o.parts.map(p => `<tr><td>${esc(p.name)}</td><td class="num">${p.qty}</td><td class="num">${p.length}</td><td class="num">${p.width}</td><td>${esc(matName(p.material))}</td><td>${esc(p.edge_band)}</td></tr>`).join("")}</tbody>
-    </table></div></div>
+    <div class="panel"><h4>قائمة التقطيع</h4><ul class="cuts">${o.parts.map(p => `<li>
+      <div class="cut-top"><b>${esc(p.name)}</b><span class="cut-qty">× ${p.qty}</span></div>
+      <div class="cut-size">${p.length} × ${p.width} <small>مم</small></div>
+      <div class="cut-meta">${esc(matName(p.material))}${p.edge_band ? ` · شريط حرف: ${esc(p.edge_band)}` : ""}</div>
+    </li>`).join("")}</ul></div>
     ${o.hardware.length ? `<div class="panel"><h4>الخردوات</h4><ul class="rules">${o.hardware.map(x => `<li><span class="tick">•</span><span>${esc(x)}</span></li>`).join("")}</ul></div>` : ""}
     ${o.steps.length ? `<div class="panel"><h4>خطوات التنفيذ</h4><ol class="steps-list">${o.steps.map(x => `<li>${esc(x)}</li>`).join("")}</ol></div>` : ""}`;
 }
