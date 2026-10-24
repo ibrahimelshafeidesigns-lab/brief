@@ -1,37 +1,29 @@
 [hidden] { display: none !important; }
 
 /* Layout: one phone-width RTL column, chat-first, bottom tab bar; drawings read like blueprint sheets */
+/* Same look as the client design page (Cabinet Maker data/google/design_page.html): white, warm hairlines, ink,
+   a touch of gold, serif numbers, square corners; a warm dark version for phones set to dark. */
 :root {
-  --bg: #e9ecea;
-  --surface: #ffffff;
-  --ink: #17263a;
-  --muted: #5d6b78;
-  --line: #cfd6d8;
-  --accent: #f2b705;      /* carpenter's pencil yellow */
-  --accent-ink: #2a2100;
-  --blue: #1f4e8c;        /* drawing ink */
-  --sheet: #f6f8fb;
-  --ok: #2e7d4f;
-  --ok-bg: #e2f2e8;
-  --warn: #9a6200;
-  --warn-bg: #fdf0d5;
-  --me: #17263a;
-  --me-fg: #ffffff;
-  --iso-top: #f4f1ea; --iso-front: #e3ddd0; --iso-side: #cfc7b6; --iso-door: #efe6cf; --iso-door-top: #f8f2e2; --iso-door-side: #ddd2b5;
-  --body: "IBM Plex Sans Arabic", "Segoe UI", Tahoma, sans-serif;
+  color-scheme: light;
+  --bg: #ffffff; --surface: #ffffff; --ink: #1b1b19; --ink-2: #45443f; --muted: #736f67; --line: #e9e6e0;
+  --accent: #b0925f; --accent-ink: #ffffff; --gold-soft: #f6f1e7; --blue: #45443f; --sheet: #f7f6f3;
+  --ok: #4f6b4a; --ok-bg: #eef2ea; --warn: #9a3f33; --warn-bg: #f8ece8; --me: #1b1b19; --me-fg: #ffffff; --on-ink: #ffffff;
+  --iso-top: #f7f6f3; --iso-front: #e9e6e0; --iso-side: #d9d4ca; --iso-door: #ece3d0; --iso-door-top: #f6f1e7; --iso-door-side: #d6c8a8;
+  --body: "IBM Plex Sans Arabic", system-ui, -apple-system, "Segoe UI", Tahoma, sans-serif;
+  --serif: "Cormorant Garamond", "IBM Plex Sans Arabic", Georgia, serif;
   --mono: "IBM Plex Mono", ui-monospace, Menlo, monospace;
 }
 @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
-  --bg: #11171e; --surface: #1a222c; --ink: #e6ebf0; --muted: #98a6b3; --line: #2e3a47;
-  --accent: #f2b705; --accent-ink: #2a2100; --blue: #8db7f0; --sheet: #141c26;
-  --ok: #7fd3a0; --ok-bg: #173325; --warn: #f0c46a; --warn-bg: #3a2c10; --me: #2f4a6e; --me-fg: #ffffff;
-  --iso-top: #3a4654; --iso-front: #2c3743; --iso-side: #232c36; --iso-door: #4a4636; --iso-door-top: #5a5542; --iso-door-side: #3b3829;
+  --bg: #171614; --surface: #1d1c19; --ink: #efece6; --ink-2: #d2cec5; --muted: #a39f95; --line: #34322d;
+  --accent: #c7a974; --accent-ink: #171614; --gold-soft: #2a251c; --blue: #d2cec5; --sheet: #22201c;
+  --ok: #9cc193; --ok-bg: #1f2a1d; --warn: #e3a092; --warn-bg: #33201b; --me: #efece6; --me-fg: #171614; --on-ink: #171614;
+  --iso-top: #4a4741; --iso-front: #3a3833; --iso-side: #2c2a26; --iso-door: #5a5040; --iso-door-top: #6a5f4c; --iso-door-side: #463e31;
   color-scheme: dark } }
 :root[data-theme="dark"] {
-  --bg: #11171e; --surface: #1a222c; --ink: #e6ebf0; --muted: #98a6b3; --line: #2e3a47;
-  --accent: #f2b705; --accent-ink: #2a2100; --blue: #8db7f0; --sheet: #141c26;
-  --ok: #7fd3a0; --ok-bg: #173325; --warn: #f0c46a; --warn-bg: #3a2c10; --me: #2f4a6e; --me-fg: #ffffff;
-  --iso-top: #3a4654; --iso-front: #2c3743; --iso-side: #232c36; --iso-door: #4a4636; --iso-door-top: #5a5542; --iso-door-side: #3b3829;
+  --bg: #171614; --surface: #1d1c19; --ink: #efece6; --ink-2: #d2cec5; --muted: #a39f95; --line: #34322d;
+  --accent: #c7a974; --accent-ink: #171614; --gold-soft: #2a251c; --blue: #d2cec5; --sheet: #22201c;
+  --ok: #9cc193; --ok-bg: #1f2a1d; --warn: #e3a092; --warn-bg: #33201b; --me: #efece6; --me-fg: #171614; --on-ink: #171614;
+  --iso-top: #4a4741; --iso-front: #3a3833; --iso-side: #2c2a26; --iso-door: #5a5040; --iso-door-top: #6a5f4c; --iso-door-side: #463e31;
   color-scheme: dark }
 
 html, body { height: 100%; }
@@ -172,3 +164,75 @@ button[disabled] { opacity: .45; cursor: default; }
 .cut-size { font-family: var(--mono); font-variant-numeric: tabular-nums; font-size: 16px; direction: ltr; text-align: end; }
 .cut-size small { font-family: inherit; color: var(--muted); }
 .cut-meta { font-size: 13px; color: var(--muted); }
+
+/* ---------- client page look ---------- */
+body { font-weight: 400; -webkit-tap-highlight-color: transparent; }
+button:focus-visible, input:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+.n, td.num, .totals b, .dim-in input, .cut-qty, .cut-size { font-family: var(--serif); font-weight: 500; font-variant-numeric: lining-nums tabular-nums; }
+td.num, .cut-size { font-size: 18px; }
+.cut-qty { font-size: 17px; color: var(--accent); }
+.cut-top { font-weight: 500; }
+.cuts li { padding: 12px 0; }
+
+header.top { border-bottom: 1px solid var(--line); }
+.brand { font-weight: 400; font-size: 18px; letter-spacing: .01em; }
+.brand .mark { width: 32px; height: 32px; border-radius: 50%; background: none; border: 1px solid var(--accent); color: var(--ink); font: 400 17px/1 var(--serif); }
+.proto { color: var(--ink); background: none; border: 1px solid var(--ink); border-radius: 1px; padding: 6px 12px; font-size: 13px; }
+
+h2 { font-weight: 300; font-size: 26px; line-height: 1.4; }
+h2::after { content: ""; display: block; width: 36px; height: 1px; background: var(--accent); margin-top: 10px; }
+
+.msg { border-radius: 2px; }
+.msg.me { border-bottom-right-radius: 2px; }
+.msg.ai { border-bottom-left-radius: 2px; }
+.opt, .libcard, .job, .panel, .sheetcard, .totals div, .seg, .worker, .search, .login input, .dim-in input, .composer input { border-radius: 2px; }
+.opt, .libcard { border: 1px solid var(--line); }
+.opt:hover, .libcard:hover { border-color: var(--ink); }
+.opt .thumb, .libcard .thumb { border-radius: 1px; }
+.opt h3 { font-weight: 500; }
+.chip { border-radius: 1px; background: var(--sheet); }
+.chip.ok { background: var(--ok-bg); }
+
+.composer input { border: 1px solid var(--line); background: var(--sheet); }
+.iconbtn.mic { background: var(--gold-soft); color: var(--ink); border: 1px solid var(--accent); }
+.iconbtn.send { background: var(--ink); color: var(--on-ink); }
+
+nav.tabs button { font-weight: 400; }
+nav.tabs button[aria-selected="true"] { font-weight: 500; box-shadow: inset 0 1.5px 0 var(--ink); }
+nav.tabs button[aria-selected="true"] svg { color: var(--accent); }
+.badge { font-family: var(--body); background: var(--ink); color: var(--on-ink); }
+
+.back { color: var(--ink-2); font-weight: 400; }
+.seg { padding: 0; gap: 0; border: 0; border-bottom: 1px solid var(--line); background: none; }
+.seg button { border-radius: 0; padding: 10px 4px; font-weight: 400; color: var(--muted); }
+.seg button[aria-pressed="true"] { background: none; color: var(--ink); font-weight: 500; box-shadow: inset 0 -1.5px 0 var(--ink); }
+.panel { border: 0; border-top: 1px solid var(--line); padding: 14px 0 0; background: none; }
+.panel h4, .libgroup h3 { font-size: 14px; font-weight: 500; color: var(--muted); margin-bottom: 6px; }
+th { font-weight: 400; }
+.totals div { border: 0; border-top: 1.5px solid var(--ink); border-radius: 0; padding: 10px 2px; background: none; }
+.totals b { font-size: 25px; }
+.rules .tick { color: var(--accent); }
+
+.primary { background: var(--ink); color: var(--on-ink); border-radius: 1px; font-weight: 400; letter-spacing: .04em; min-height: 54px; }
+.secondary { background: none; border: 1px solid var(--ink); border-radius: 1px; font-weight: 400; min-height: 52px; }
+.linkbtn { color: var(--ink-2); font-weight: 500; text-decoration: underline; text-underline-offset: 3px; min-height: 44px; }
+
+.status { border-radius: 1px; }
+.s-cut { background: var(--gold-soft); color: var(--ink); }
+.steps i { border-radius: 0; height: 3px; }
+.steps i.on { background: var(--ink); }
+.scrim { background: rgba(27, 27, 25, .45); }
+.sheet { border-radius: 2px 2px 0 0; }
+.worker { background: var(--sheet); border: 1px solid transparent; }
+.worker[aria-pressed="true"] { border-color: var(--ink); background: var(--gold-soft); }
+.avatar { background: none; border: 1px solid var(--accent); color: var(--ink); font: 400 19px/1 var(--serif); }
+.toast { border-radius: 1px; color: var(--on-ink); }
+.err { border-radius: 0; background: none; border-top: 1px solid var(--warn); border-bottom: 1px solid var(--warn); }
+.chip.bad { background: var(--warn-bg); }
+.login h2, .login .sub { text-align: center; } .login h2::after { margin-inline: auto; }
+.login input { border: 0; border-bottom: 1px solid var(--line); background: none; font-family: var(--serif); font-size: 30px; }
+.login input:focus { outline: none; border-bottom-color: var(--ink); }
+.search { border: 0; border-bottom: 1px solid var(--line); background: none; padding-inline: 2px; min-height: 48px; }
+.search:focus { outline: none; border-bottom-color: var(--ink); }
+.dim-in input { border: 1px solid var(--line); background: var(--sheet); font-size: 21px; }
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
