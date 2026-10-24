@@ -11,6 +11,7 @@ const ORDER = ["new", "cutting", "assembly", "done"];
 const state = {
   pin: store.get("pin", ""), role: null, rules: null,
   tab: "design", view: "chat", option: null, drawing: "side", job: null,
+  lib: { types: null, q: "", sel: null, size: null, open: false, problems: [] },
   chat: store.get("chat", []), jobs: [], me: store.get("me", null), busy: false, error: ""
 };
 
@@ -106,14 +107,17 @@ function renderChat() {
 }
 function optionBody(o) {
   const sheets = sheetLayout(o.parts);
-  const drawing = state.drawing === "side" ? renderView(o.side) : state.drawing === "front" ? renderView(o.front) : null;
+  const iso = !!o.parts3d?.length;
+  const drawing = state.drawing === "iso" && iso ? isoPanel({ ...o.overall, parts: o.parts3d })
+    : state.drawing === "side" ? renderView(o.side) : state.drawing === "front" ? renderView(o.front) : null;
+  const tabs = [...(iso ? [["iso", "منظور"]] : []), ["side", "من الجنب"], ["front", "من قدام"], ["sheets", "ألواح التقطيع"]];
   const count = o.parts.reduce((s, p) => s + p.qty, 0);
   return `
     <p class="sub">المقاس الكلي <span class="n">${o.overall.width} × ${o.overall.depth} × ${o.overall.height}</span> مم (عرض × عمق × ارتفاع)</p>
     <div class="seg" role="group" aria-label="الرسمة">
-      ${[["side", "من الجنب"], ["front", "من قدام"], ["sheets", "ألواح التقطيع"]].map(([k, l]) => `<button data-draw="${k}" aria-pressed="${state.drawing === k}">${l}</button>`).join("")}
+      ${tabs.map(([k, l]) => `<button data-draw="${k}" aria-pressed="${state.drawing === k}">${l}</button>`).join("")}
     </div>
-    ${drawing != null ? `<div class="sheetcard"><div class="cap"><span>${state.drawing === "side" ? "واجهة جانبية" : "واجهة أمامية"}</span><span>المقاسات بالمللي</span></div>${drawing}</div>` : sheets.html}
+    ${drawing != null ? (state.drawing === "iso" ? drawing : `<div class="sheetcard"><div class="cap"><span>${state.drawing === "side" ? "واجهة جانبية" : "واجهة أمامية"}</span><span>المقاسات بالمللي</span></div>${drawing}</div>`) : sheets.html}
     <div class="totals">
       <div><b>${sheets.count}</b><span>ألواح</span></div>
       <div><b>${count}</b><span>قطعة</span></div>
@@ -124,9 +128,57 @@ function optionBody(o) {
       <thead><tr><th>القطعة</th><th class="num">العدد</th><th class="num">طول</th><th class="num">عرض</th><th>الخامة</th><th>شريط حرف</th></tr></thead>
       <tbody>${o.parts.map(p => `<tr><td>${esc(p.name)}</td><td class="num">${p.qty}</td><td class="num">${p.length}</td><td class="num">${p.width}</td><td>${esc(matName(p.material))}</td><td>${esc(p.edge_band)}</td></tr>`).join("")}</tbody>
     </table></div></div>
-    <div class="panel"><h4>الخردوات</h4><ul class="rules">${o.hardware.map(x => `<li><span class="tick">•</span><span>${esc(x)}</span></li>`).join("")}</ul></div>
-    <div class="panel"><h4>خطوات التنفيذ</h4><ol class="steps-list">${o.steps.map(x => `<li>${esc(x)}</li>`).join("")}</ol></div>`;
+    ${o.hardware.length ? `<div class="panel"><h4>الخردوات</h4><ul class="rules">${o.hardware.map(x => `<li><span class="tick">•</span><span>${esc(x)}</span></li>`).join("")}</ul></div>` : ""}
+    ${o.steps.length ? `<div class="panel"><h4>خطوات التنفيذ</h4><ol class="steps-list">${o.steps.map(x => `<li>${esc(x)}</li>`).join("")}</ol></div>` : ""}`;
 }
+/* ---------- cabinet library ---------- */
+function isoPanel(cab) {
+  return `<div class="sheetcard iso"><div class="cap"><span>منظور</span><button class="linkbtn" data-open>${state.lib.open ? "اقفل الضلف" : "افتح الضلف"}</button></div>${Cabinets.isoSvg(cab, { open: state.lib.open })}</div>`;
+}
+const typeName = t => t.name_ar || t.name;
+function renderLibrary() {
+  const L = state.lib;
+  if (!L.types) return `<div class="view"><p class="empty">بيحمّل الدواليب...</p></div>`;
+  if (!L.types.length) return `<div class="view"><h2>مكتبة الدواليب</h2><p class="empty">الدواليب لسه ما وصلتش من Cabinet Maker. افتح SketchUp مرة على كمبيوتر الورشة.</p></div>`;
+  const q = L.q.trim();
+  const groups = L.types.map((t, ti) => ({ t, ti, presets: (t.presets || []).map((p, pi) => ({ p, pi })).filter(({ p }) => p.parts?.length && (!q || (typeName(t) + " " + p.name).includes(q))) }))
+    .filter(g => g.presets.length);
+  return `<div class="view"><h2>مكتبة الدواليب</h2>
+    <p class="src" style="margin:-8px 0 0">من Cabinet Maker · ${L.types.reduce((n, t) => n + (t.presets || []).filter(p => p.parts?.length).length, 0)} دولاب جاهز</p>
+    <input id="libq" class="search" type="search" placeholder="دوّر: أرضي، علوي، حوض، فرن..." value="${esc(L.q)}">
+    ${groups.map(g => `<section class="libgroup"><h3>${esc(typeName(g.t))}</h3><div class="libgrid">${g.presets.map(({ p, pi }) =>
+      `<button class="libcard" data-cab="${g.ti}:${pi}"><span class="thumb">${Cabinets.isoSvg(p, { small: true })}</span><b>${esc(p.name)}</b><span class="n">${p.width}×${p.height}×${p.depth}</span></button>`).join("")}</div></section>`).join("") || `<p class="empty">مفيش نتيجة</p>`}
+  </div>`;
+}
+function currentCabinet() {
+  const L = state.lib, t = L.types[L.sel.ti], base = t.presets[L.sel.pi];
+  const { W, H, D } = L.size;
+  const cab = (W === base.width && H === base.height && D === base.depth) ? base : Cabinets.resize(base, W, H, D);
+  return { t, base, cab };
+}
+function renderCabinet() {
+  const L = state.lib, { t, base, cab } = currentCabinet();
+  const changed = cab !== base;
+  const opt = Cabinets.toOption(t, cab, `${typeName(t)} ${base.name}${changed ? ` (${cab.width}×${cab.height}×${cab.depth})` : ""}`);
+  opt.problems = [...Cabinets.limitsProblems(t, cab.width, cab.height, cab.depth), ...(L.problems || [])];
+  state.option = opt;
+  const field = (k, label) => `<label class="dim-in"><span>${label}</span><input id="sz-${k}" type="number" inputmode="numeric" min="50" step="1" value="${L.size[k]}"></label>`;
+  return `<div class="view">
+    <button class="back" data-libback>› رجوع للمكتبة</button>
+    <h2>${esc(typeName(t))} · ${esc(base.name)}</h2>
+    <div class="panel"><h4>المقاس</h4><div class="dims">${field("W", "عرض")}${field("H", "ارتفاع")}${field("D", "عمق")}</div>
+      <div class="row2" style="margin-top:8px"><button class="secondary" data-resize>طبّق المقاس</button><button class="secondary" data-reset ${changed ? "" : "disabled"}>المقاس الأصلي</button></div>
+      ${changed ? `<p class="src" style="margin:8px 0 0">اتعدّل من مقاس Cabinet Maker: الألواح فضلت 18 مم والجوانب والأرجل زي ما هي، والباقي اتمدّ. راجع خلوص الضلف قبل التقطيع.</p>` : ""}
+    </div>
+    ${optionBody(opt)}
+    <button class="secondary" data-askcab>اسأل Claude يعدّل فيه</button>
+    <button class="primary big" data-assign>ابعت للصنايعية</button>
+  </div>`;
+}
+async function loadLibrary() {
+  try { const r = await api("/api/library"); state.lib.types = r.types; } catch (e) { state.lib.types = []; toast(e.message); }
+}
+
 function renderDetail() {
   const o = state.option;
   return `<div class="view">
@@ -178,6 +230,7 @@ function render() {
   else if (state.view === "job") main.innerHTML = renderJob();
   else if (state.tab === "jobs") main.innerHTML = renderJobs();
   else if (state.tab === "rules") main.innerHTML = renderRules();
+  else if (state.tab === "library") main.innerHTML = state.view === "cabinet" ? renderCabinet() : renderLibrary();
   else if (state.view === "detail") main.innerHTML = renderDetail();
   else main.innerHTML = renderChat();
   main.scrollTop = (state.tab === "design" && state.view === "chat") ? main.scrollHeight : 0;
@@ -235,7 +288,29 @@ function openAssign() {
 document.addEventListener("click", async e => {
   const t = e.target;
   if (t.closest("[data-login]")) return login($("#pin").value.trim());
-  const tab = t.closest("[data-tab]"); if (tab) { state.tab = tab.dataset.tab; state.view = "chat"; if (state.tab === "jobs") await loadJobs(); return render(); }
+  const tab = t.closest("[data-tab]"); if (tab) { state.tab = tab.dataset.tab; state.view = "chat"; if (state.tab === "jobs") await loadJobs(); if (state.tab === "library") { render(); await loadLibrary(); } return render(); }
+  const cab = t.closest("[data-cab]");
+  if (cab) {
+    const [ti, pi] = cab.dataset.cab.split(":").map(Number), p = state.lib.types[ti].presets[pi];
+    Object.assign(state.lib, { sel: { ti, pi }, size: { W: p.width, H: p.height, D: p.depth }, open: false, problems: [] });
+    state.view = "cabinet"; state.drawing = "iso"; return render();
+  }
+  if (t.closest("[data-libback]")) { state.view = "chat"; return render(); }
+  if (t.closest("[data-open]")) { state.lib.open = !state.lib.open; return render(); }
+  if (t.closest("[data-reset]")) { const { base } = currentCabinet(); state.lib.size = { W: base.width, H: base.height, D: base.depth }; state.lib.problems = []; return render(); }
+  if (t.closest("[data-resize]")) {
+    const v = k => Math.round(Number($("#sz-" + k).value));
+    const size = { W: v("W"), H: v("H"), D: v("D") };
+    if (Object.values(size).some(n => !(n >= 50))) return toast("اكتب مقاس صحيح بالمللي");
+    state.lib.size = size;
+    const { t: type, cab: c } = currentCabinet();
+    try { state.lib.problems = (await api("/api/check", { method: "POST", body: JSON.stringify({ option: Cabinets.toOption(type, c, "") }) })).problems; } catch { state.lib.problems = []; }
+    return render();
+  }
+  if (t.closest("[data-askcab]")) {
+    const o = state.option; state.tab = "design"; state.view = "chat"; render();
+    $("#prompt").value = `عندي ${o.name} من مكتبة Cabinet Maker بمقاس ${o.overall.width}×${o.overall.height}×${o.overall.depth}. عايز `; $("#prompt").focus(); return;
+  }
   const opt = t.closest("[data-opt]"); if (opt) { const [mi, i] = opt.dataset.opt.split(":").map(Number); state.option = state.chat[mi].result.options[i]; state.view = "detail"; state.drawing = "side"; return render(); }
   if (t.closest("[data-back]")) { state.view = "chat"; return render(); }
   const dr = t.closest("[data-draw]"); if (dr) { state.drawing = dr.dataset.draw; return render(); }
@@ -243,7 +318,7 @@ document.addEventListener("click", async e => {
   if (t.closest("[data-change]")) { state.view = "chat"; render(); $("#prompt").value = `في اختيار ${state.option.id} (${state.option.name}): `; $("#prompt").focus(); return; }
   const me = t.closest("[data-me]"); if (me) { state.me = +me.dataset.me; store.set("me", state.me); return render(); }
   if (t.closest("[data-notme]")) { state.me = null; store.set("me", null); return render(); }
-  const job = t.closest("[data-job]"); if (job) { state.job = state.jobs.find(j => j.id === job.dataset.job); state.view = "job"; state.drawing = "side"; return render(); }
+  const job = t.closest("[data-job]"); if (job) { state.job = state.jobs.find(j => j.id === job.dataset.job); state.view = "job"; state.drawing = state.job.option.parts3d?.length ? "iso" : "side"; return render(); }
   if (t.closest("[data-backjobs]")) { state.view = "chat"; await loadJobs(); return render(); }
   const adv = t.closest("[data-advance]");
   if (adv) {
@@ -251,6 +326,11 @@ document.addEventListener("click", async e => {
     catch (err) { toast(err.message); }
     return render();
   }
+});
+document.addEventListener("input", e => {
+  if (e.target.id !== "libq") return;
+  state.lib.q = e.target.value; const pos = e.target.selectionStart; render();
+  const el = $("#libq"); el.focus(); el.setSelectionRange(pos, pos);
 });
 $("#newchat").addEventListener("click", () => { state.chat = []; state.error = ""; store.set("chat", []); render(); });
 $("#send").addEventListener("click", () => { const v = $("#prompt").value; $("#prompt").value = ""; send(v); });

@@ -1,9 +1,692 @@
 {
-  "exported_at": "2026-10-24T04:30:00Z",
-  "plugin_version": "2.1.0-test",
-  "construction": { "panel_thickness": 18, "back_thickness": 5, "groove_depth": 7, "door_outer_clearance": 1.5 },
-  "cabinet_types": [
-    { "id": "base", "name": "Base cabinet", "name_ar": "دولاب أرضي", "status": "ready", "size_limits": { "width": [150, 1200], "height": [600, 900], "depth": [300, 650] }, "presets": [{ "name": "Base 60", "width": 600, "height": 774, "depth": 580 }] },
-    { "id": "island", "name": "Island cabinet", "name_ar": "جزيرة", "status": "ready", "presets": [] }
-  ]
+ "exported_at": "2026-10-24T04:30:00Z",
+ "plugin_version": "2.1.0-test",
+ "construction": {
+  "panel_thickness": 18,
+  "back_thickness": 5,
+  "groove_depth": 7,
+  "door_outer_clearance": 1.5
+ },
+ "cabinet_types": [
+  {
+   "id": "base",
+   "name": "Base cabinet",
+   "name_ar": "دولاب أرضي",
+   "status": "ready",
+   "size_limits": {
+    "width": [
+     150,
+     1200
+    ],
+    "height": [
+     600,
+     900
+    ],
+    "depth": [
+     300,
+     650
+    ]
+   },
+   "presets": [
+    {
+     "width": 600,
+     "height": 774,
+     "depth": 580,
+     "parts": [
+      {
+       "key": "leg0",
+       "name": "رجل",
+       "role": "leg",
+       "material": "Cabinet - legs",
+       "thickness": 50,
+       "x": 25,
+       "y": 80,
+       "z": 0,
+       "w": 50,
+       "d": 50,
+       "h": 110,
+       "edge_band": ""
+      },
+      {
+       "key": "leg1",
+       "name": "رجل",
+       "role": "leg",
+       "material": "Cabinet - legs",
+       "thickness": 50,
+       "x": 525,
+       "y": 80,
+       "z": 0,
+       "w": 50,
+       "d": 50,
+       "h": 110,
+       "edge_band": ""
+      },
+      {
+       "key": "leg2",
+       "name": "رجل",
+       "role": "leg",
+       "material": "Cabinet - legs",
+       "thickness": 50,
+       "x": 25,
+       "y": 500,
+       "z": 0,
+       "w": 50,
+       "d": 50,
+       "h": 110,
+       "edge_band": ""
+      },
+      {
+       "key": "leg3",
+       "name": "رجل",
+       "role": "leg",
+       "material": "Cabinet - legs",
+       "thickness": 50,
+       "x": 525,
+       "y": 500,
+       "z": 0,
+       "w": 50,
+       "d": 50,
+       "h": 110,
+       "edge_band": ""
+      },
+      {
+       "key": "sideL",
+       "name": "جنب",
+       "role": "carcass",
+       "material": "Blockboard (White)",
+       "thickness": 18,
+       "x": 0,
+       "y": 18,
+       "z": 110,
+       "w": 18,
+       "d": 562,
+       "h": 664,
+       "edge_band": "الأمامي"
+      },
+      {
+       "key": "sideR",
+       "name": "جنب",
+       "role": "carcass",
+       "material": "Blockboard (White)",
+       "thickness": 18,
+       "x": 582,
+       "y": 18,
+       "z": 110,
+       "w": 18,
+       "d": 562,
+       "h": 664,
+       "edge_band": "الأمامي"
+      },
+      {
+       "key": "bottom",
+       "name": "أرضية",
+       "role": "carcass",
+       "material": "Blockboard (White)",
+       "thickness": 18,
+       "x": 18,
+       "y": 18,
+       "z": 110,
+       "w": 564,
+       "d": 555,
+       "h": 18,
+       "edge_band": "الأمامي"
+      },
+      {
+       "key": "rail",
+       "name": "مرابط",
+       "role": "carcass",
+       "material": "Blockboard (White)",
+       "thickness": 18,
+       "x": 18,
+       "y": 58,
+       "z": 756,
+       "w": 564,
+       "d": 100,
+       "h": 18,
+       "edge_band": ""
+      },
+      {
+       "key": "railB",
+       "name": "مرابط ورا",
+       "role": "carcass",
+       "material": "Blockboard (White)",
+       "thickness": 18,
+       "x": 18,
+       "y": 473,
+       "z": 756,
+       "w": 564,
+       "d": 100,
+       "h": 18,
+       "edge_band": ""
+      },
+      {
+       "key": "back",
+       "name": "ضهر",
+       "role": "back",
+       "material": "HDF 5",
+       "thickness": 5,
+       "x": 18,
+       "y": 568,
+       "z": 121,
+       "w": 564,
+       "d": 5,
+       "h": 646,
+       "edge_band": ""
+      },
+      {
+       "key": "shelf",
+       "name": "رف",
+       "role": "shelf",
+       "material": "Blockboard (White)",
+       "thickness": 18,
+       "x": 18.5,
+       "y": 38,
+       "z": 442.0,
+       "w": 563,
+       "d": 522,
+       "h": 18,
+       "edge_band": "الأمامي"
+      },
+      {
+       "key": "door0",
+       "name": "ضلفة",
+       "role": "door",
+       "material": "PVC (Cream)",
+       "thickness": 18,
+       "x": 1.5,
+       "y": 0,
+       "z": 114.5,
+       "w": 297.0,
+       "d": 18,
+       "h": 627.5,
+       "edge_band": "كل الحروف"
+      },
+      {
+       "key": "door1",
+       "name": "ضلفة",
+       "role": "door",
+       "material": "PVC (Cream)",
+       "thickness": 18,
+       "x": 301.5,
+       "y": 0,
+       "z": 114.5,
+       "w": 297.0,
+       "d": 18,
+       "h": 627.5,
+       "edge_band": "كل الحروف"
+      }
+     ],
+     "hardware": [
+      {
+       "name": "رجل بلاستيك",
+       "code": "LEG",
+       "qty": 4
+      },
+      {
+       "name": "مفصلة",
+       "code": "HNG",
+       "qty": 4
+      }
+     ],
+     "name": "60 ضلفتين"
+    },
+    {
+     "width": 600,
+     "height": 774,
+     "depth": 580,
+     "parts": [
+      {
+       "key": "leg0",
+       "name": "رجل",
+       "role": "leg",
+       "material": "Cabinet - legs",
+       "thickness": 50,
+       "x": 25,
+       "y": 80,
+       "z": 0,
+       "w": 50,
+       "d": 50,
+       "h": 110,
+       "edge_band": ""
+      },
+      {
+       "key": "leg1",
+       "name": "رجل",
+       "role": "leg",
+       "material": "Cabinet - legs",
+       "thickness": 50,
+       "x": 525,
+       "y": 80,
+       "z": 0,
+       "w": 50,
+       "d": 50,
+       "h": 110,
+       "edge_band": ""
+      },
+      {
+       "key": "leg2",
+       "name": "رجل",
+       "role": "leg",
+       "material": "Cabinet - legs",
+       "thickness": 50,
+       "x": 25,
+       "y": 500,
+       "z": 0,
+       "w": 50,
+       "d": 50,
+       "h": 110,
+       "edge_band": ""
+      },
+      {
+       "key": "leg3",
+       "name": "رجل",
+       "role": "leg",
+       "material": "Cabinet - legs",
+       "thickness": 50,
+       "x": 525,
+       "y": 500,
+       "z": 0,
+       "w": 50,
+       "d": 50,
+       "h": 110,
+       "edge_band": ""
+      },
+      {
+       "key": "sideL",
+       "name": "جنب",
+       "role": "carcass",
+       "material": "Blockboard (White)",
+       "thickness": 18,
+       "x": 0,
+       "y": 18,
+       "z": 110,
+       "w": 18,
+       "d": 562,
+       "h": 664,
+       "edge_band": "الأمامي"
+      },
+      {
+       "key": "sideR",
+       "name": "جنب",
+       "role": "carcass",
+       "material": "Blockboard (White)",
+       "thickness": 18,
+       "x": 582,
+       "y": 18,
+       "z": 110,
+       "w": 18,
+       "d": 562,
+       "h": 664,
+       "edge_band": "الأمامي"
+      },
+      {
+       "key": "bottom",
+       "name": "أرضية",
+       "role": "carcass",
+       "material": "Blockboard (White)",
+       "thickness": 18,
+       "x": 18,
+       "y": 18,
+       "z": 110,
+       "w": 564,
+       "d": 555,
+       "h": 18,
+       "edge_band": "الأمامي"
+      },
+      {
+       "key": "rail",
+       "name": "مرابط",
+       "role": "carcass",
+       "material": "Blockboard (White)",
+       "thickness": 18,
+       "x": 18,
+       "y": 58,
+       "z": 756,
+       "w": 564,
+       "d": 100,
+       "h": 18,
+       "edge_band": ""
+      },
+      {
+       "key": "railB",
+       "name": "مرابط ورا",
+       "role": "carcass",
+       "material": "Blockboard (White)",
+       "thickness": 18,
+       "x": 18,
+       "y": 473,
+       "z": 756,
+       "w": 564,
+       "d": 100,
+       "h": 18,
+       "edge_band": ""
+      },
+      {
+       "key": "back",
+       "name": "ضهر",
+       "role": "back",
+       "material": "HDF 5",
+       "thickness": 5,
+       "x": 18,
+       "y": 568,
+       "z": 121,
+       "w": 564,
+       "d": 5,
+       "h": 646,
+       "edge_band": ""
+      },
+      {
+       "key": "df0",
+       "name": "وش درج",
+       "role": "drawer_front",
+       "material": "PVC (Cream)",
+       "thickness": 18,
+       "x": 1.5,
+       "y": 0,
+       "z": 114.5,
+       "w": 597,
+       "d": 18,
+       "h": 216.33333333333334,
+       "edge_band": "كل الحروف"
+      },
+      {
+       "key": "ds0a",
+       "name": "جنب درج",
+       "role": "drawer_box",
+       "material": "Blockboard 16",
+       "thickness": 16,
+       "x": 30,
+       "y": 28,
+       "z": 130.0,
+       "w": 16,
+       "d": 450,
+       "h": 156.33333333333334,
+       "edge_band": ""
+      },
+      {
+       "key": "ds0b",
+       "name": "جنب درج",
+       "role": "drawer_box",
+       "material": "Blockboard 16",
+       "thickness": 16,
+       "x": 554,
+       "y": 28,
+       "z": 130.0,
+       "w": 16,
+       "d": 450,
+       "h": 156.33333333333334,
+       "edge_band": ""
+      },
+      {
+       "key": "df1",
+       "name": "وش درج",
+       "role": "drawer_front",
+       "material": "PVC (Cream)",
+       "thickness": 18,
+       "x": 1.5,
+       "y": 0,
+       "z": 333.83333333333337,
+       "w": 597,
+       "d": 18,
+       "h": 216.33333333333334,
+       "edge_band": "كل الحروف"
+      },
+      {
+       "key": "ds1a",
+       "name": "جنب درج",
+       "role": "drawer_box",
+       "material": "Blockboard 16",
+       "thickness": 16,
+       "x": 30,
+       "y": 28,
+       "z": 349.33333333333337,
+       "w": 16,
+       "d": 450,
+       "h": 156.33333333333334,
+       "edge_band": ""
+      },
+      {
+       "key": "ds1b",
+       "name": "جنب درج",
+       "role": "drawer_box",
+       "material": "Blockboard 16",
+       "thickness": 16,
+       "x": 554,
+       "y": 28,
+       "z": 349.33333333333337,
+       "w": 16,
+       "d": 450,
+       "h": 156.33333333333334,
+       "edge_band": ""
+      },
+      {
+       "key": "df2",
+       "name": "وش درج",
+       "role": "drawer_front",
+       "material": "PVC (Cream)",
+       "thickness": 18,
+       "x": 1.5,
+       "y": 0,
+       "z": 553.1666666666667,
+       "w": 597,
+       "d": 18,
+       "h": 216.33333333333334,
+       "edge_band": "كل الحروف"
+      },
+      {
+       "key": "ds2a",
+       "name": "جنب درج",
+       "role": "drawer_box",
+       "material": "Blockboard 16",
+       "thickness": 16,
+       "x": 30,
+       "y": 28,
+       "z": 568.6666666666667,
+       "w": 16,
+       "d": 450,
+       "h": 156.33333333333334,
+       "edge_band": ""
+      },
+      {
+       "key": "ds2b",
+       "name": "جنب درج",
+       "role": "drawer_box",
+       "material": "Blockboard 16",
+       "thickness": 16,
+       "x": 554,
+       "y": 28,
+       "z": 568.6666666666667,
+       "w": 16,
+       "d": 450,
+       "h": 156.33333333333334,
+       "edge_band": ""
+      }
+     ],
+     "hardware": [
+      {
+       "name": "رجل بلاستيك",
+       "code": "LEG",
+       "qty": 4
+      },
+      {
+       "name": "مجرى 45",
+       "code": "SLD45",
+       "qty": 3
+      }
+     ],
+     "name": "60 تلت أدراج"
+    }
+   ]
+  },
+  {
+   "id": "island",
+   "name": "Island cabinet",
+   "name_ar": "جزيرة",
+   "status": "ready",
+   "presets": []
+  },
+  {
+   "id": "wall",
+   "name": "Wall cabinet",
+   "name_ar": "دولاب علوي",
+   "status": "ready",
+   "size_limits": {
+    "width": [
+     150,
+     1200
+    ],
+    "height": [
+     300,
+     1000
+    ],
+    "depth": [
+     250,
+     400
+    ]
+   },
+   "presets": [
+    {
+     "width": 800,
+     "height": 710,
+     "depth": 350,
+     "parts": [
+      {
+       "key": "sideL",
+       "name": "جنب",
+       "role": "carcass",
+       "material": "Blockboard (White)",
+       "thickness": 18,
+       "x": 0,
+       "y": 18,
+       "z": 0,
+       "w": 18,
+       "d": 332,
+       "h": 710,
+       "edge_band": "الأمامي"
+      },
+      {
+       "key": "sideR",
+       "name": "جنب",
+       "role": "carcass",
+       "material": "Blockboard (White)",
+       "thickness": 18,
+       "x": 782,
+       "y": 18,
+       "z": 0,
+       "w": 18,
+       "d": 332,
+       "h": 710,
+       "edge_band": "الأمامي"
+      },
+      {
+       "key": "bottom",
+       "name": "أرضية",
+       "role": "carcass",
+       "material": "Blockboard (White)",
+       "thickness": 18,
+       "x": 18,
+       "y": 18,
+       "z": 0,
+       "w": 764,
+       "d": 325,
+       "h": 18,
+       "edge_band": "الأمامي"
+      },
+      {
+       "key": "rail",
+       "name": "مرابط",
+       "role": "carcass",
+       "material": "Blockboard (White)",
+       "thickness": 18,
+       "x": 18,
+       "y": 58,
+       "z": 692,
+       "w": 764,
+       "d": 100,
+       "h": 18,
+       "edge_band": ""
+      },
+      {
+       "key": "railB",
+       "name": "مرابط ورا",
+       "role": "carcass",
+       "material": "Blockboard (White)",
+       "thickness": 18,
+       "x": 18,
+       "y": 243,
+       "z": 692,
+       "w": 764,
+       "d": 100,
+       "h": 18,
+       "edge_band": ""
+      },
+      {
+       "key": "back",
+       "name": "ضهر",
+       "role": "back",
+       "material": "HDF 5",
+       "thickness": 5,
+       "x": 18,
+       "y": 338,
+       "z": 11,
+       "w": 764,
+       "d": 5,
+       "h": 692,
+       "edge_band": ""
+      },
+      {
+       "key": "shelf",
+       "name": "رف",
+       "role": "shelf",
+       "material": "Blockboard (White)",
+       "thickness": 18,
+       "x": 18.5,
+       "y": 38,
+       "z": 355.0,
+       "w": 763,
+       "d": 292,
+       "h": 18,
+       "edge_band": "الأمامي"
+      },
+      {
+       "key": "door0",
+       "name": "ضلفة",
+       "role": "door",
+       "material": "PVC (Cream)",
+       "thickness": 18,
+       "x": 1.5,
+       "y": 0,
+       "z": 4.5,
+       "w": 397.0,
+       "d": 18,
+       "h": 673.5,
+       "edge_band": "كل الحروف"
+      },
+      {
+       "key": "door1",
+       "name": "ضلفة",
+       "role": "door",
+       "material": "PVC (Cream)",
+       "thickness": 18,
+       "x": 401.5,
+       "y": 0,
+       "z": 4.5,
+       "w": 397.0,
+       "d": 18,
+       "h": 673.5,
+       "edge_band": "كل الحروف"
+      }
+     ],
+     "hardware": [
+      {
+       "name": "مفصلة",
+       "code": "HNG",
+       "qty": 4
+      }
+     ],
+     "name": "علوي 80"
+    }
+   ]
+  }
+ ]
 }

@@ -53,7 +53,8 @@ export function checkOption(option, rules) {
   const c = rules.construction;
   for (const p of option.parts) {
     const label = `${p.name} (${p.length}×${p.width})`;
-    const mat = mats.get(p.material);
+    // Library cabinets carry Cabinet Maker's own material names; the plugin already chose them.
+    const mat = mats.get(p.material) || (option.source === "cabinet_maker" ? { id: p.material } : null);
     if (!mat) { problems.push(`${label}: خامة مش من خامات الورشة (${p.material})`); continue; }
     if (!(p.qty >= 1) || !Number.isInteger(p.qty)) problems.push(`${label}: العدد لازم رقم صحيح`);
     if (!(p.length > 0 && p.width > 0)) { problems.push(`${label}: مقاس غلط`); continue; }
@@ -63,7 +64,7 @@ export function checkOption(option, rules) {
     }
     if (p.role === "door" && Math.min(p.length, p.width) < c.min_door_width) problems.push(`${label}: الضلفة أضيق من ${c.min_door_width} مم`);
     if (p.role === "drawer_front" && Math.min(p.length, p.width) < c.min_drawer_front) problems.push(`${label}: وش الدرج أقل من ${c.min_drawer_front} مم`);
-    if (p.role === "door" && p.material !== "front") problems.push(`${label}: الضلف لازم PVC كريمي`);
+    if (p.role === "door" && p.material !== "front" && option.source !== "cabinet_maker") problems.push(`${label}: الضلف لازم PVC كريمي`);
   }
   return problems;
 }
@@ -245,6 +246,17 @@ async function handle(req, res) {
       types: (catalog.cabinet_types || []).map(t => ({ id: t.id, name: t.name_ar || t.name, status: t.status, presets: (t.presets || []).length }))
     } : null;
     return send(res, 200, rules);
+  }
+
+  if (url.pathname === "/api/library" && req.method === "GET") {
+    const catalog = await loadCatalog();
+    return send(res, 200, { exported_at: catalog?.exported_at || null, types: catalog?.cabinet_types || [] });
+  }
+
+  if (url.pathname === "/api/check" && req.method === "POST") {
+    const { option } = await body(req);
+    if (!option?.parts) return send(res, 400, { error: "بيانات ناقصة" });
+    return send(res, 200, { problems: checkOption(option, await loadRules()) });
   }
 
   if (url.pathname === "/api/design" && req.method === "POST") {
