@@ -1,0 +1,32 @@
+{
+  "reply": "دي اختيارين لسرير 160 × 200. افترضت ارتفاع القاعدة 42 سم.",
+  "options": [
+    {
+      "id": "أ", "name": "سرير بـ 4 أدراج", "summary": "درجين في كل جنب ورأسية PVC.",
+      "overall": { "width": 1636, "depth": 2036, "height": 1100 },
+      "parts": [
+        { "name": "جنب", "qty": 2, "length": 2036, "width": 420, "material": "carcass", "role": "carcass", "edge_band": "الطول اللي فوق" },
+        { "name": "رأس / رجل", "qty": 2, "length": 1600, "width": 420, "material": "carcass", "role": "carcass", "edge_band": "الطول اللي فوق" },
+        { "name": "رأسية", "qty": 1, "length": 1636, "width": 1100, "material": "front", "role": "other", "edge_band": "كل الحروف" },
+        { "name": "كمرة نص", "qty": 1, "length": 2000, "width": 402, "material": "carcass", "role": "carcass", "edge_band": "ولا حاجة" },
+        { "name": "وش درج", "qty": 4, "length": 880, "width": 280, "material": "front", "role": "drawer_front", "edge_band": "كل الحروف" },
+        { "name": "جنب درج", "qty": 8, "length": 450, "width": 200, "material": "drawer_box", "role": "drawer_box", "edge_band": "الطول اللي فوق" },
+        { "name": "قاع درج", "qty": 4, "length": 836, "width": 450, "material": "back", "role": "drawer_box", "edge_band": "ولا حاجة" },
+        { "name": "شرائح", "qty": 28, "length": 800, "width": 70, "material": "slats", "role": "support", "edge_band": "ولا حاجة" }
+      ],
+      "hardware": ["مجاري أدراج 45 سم × 4 جوز", "كامات ومسامير تجميع × 16", "دسر 8 × 35 × 40"],
+      "steps": ["قطّع الألواح حسب قائمة التقطيع", "اعمل شريط الحرف", "جمّع الجوانب مع الرأس والرجل", "ركّب الكمرة النص والشرائح", "جمّع الأدراج وركّب المجاري", "ركّب الرأسية ووشوش الأدراج"],
+      "build_days": 4,
+      "front": { "width": 1636, "height": 1100, "shapes": [
+        { "x": 0, "y": 0, "w": 1636, "h": 1100, "kind": "panel", "label": "رأسية" },
+        { "x": 18, "y": 420, "w": 1600, "h": 220, "kind": "mattress", "label": "مرتبة" },
+        { "x": 0, "y": 0, "w": 1636, "h": 420, "kind": "panel", "label": "" } ] },
+      "side": { "width": 2036, "height": 1100, "shapes": [
+        { "x": 0, "y": 0, "w": 18, "h": 1100, "kind": "panel", "label": "" },
+        { "x": 18, "y": 0, "w": 2018, "h": 420, "kind": "panel", "label": "" },
+        { "x": 18, "y": 420, "w": 2018, "h": 220, "kind": "mattress", "label": "مرتبة" },
+        { "x": 120, "y": 70, "w": 880, "h": 280, "kind": "drawer", "label": "درج" },
+        { "x": 1056, "y": 70, "w": 880, "h": 280, "kind": "drawer", "label": "درج" } ] }
+    }
+  ]
+}

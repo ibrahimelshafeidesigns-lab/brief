@@ -1,0 +1,11 @@
+{
+  "name": "مصمم الورشة",
+  "short_name": "الورشة",
+  "lang": "ar",
+  "dir": "rtl",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#e9ecea",
+  "theme_color": "#17263a",
+  "icons": [{ "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }]
+}

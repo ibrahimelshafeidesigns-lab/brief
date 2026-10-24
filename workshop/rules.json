@@ -1,0 +1,51 @@
+{
+  "source": "Copied from Cabinet Maker (core/config.rb, core/rules.rb, core/band_rules.rb) on 24 Oct 2026. Edit here; the app re-reads this file on every request.",
+  "units": "mm",
+  "sheet": { "length": 2440, "width": 1220, "kerf": 4 },
+  "materials": [
+    { "id": "carcass", "name": "كونتر أبيض", "thickness": 18, "use": "الهيكل: جوانب، أرضيات، أسقف، رفوف، كمرات" },
+    { "id": "front", "name": "PVC كريمي", "thickness": 18, "use": "الضلف، وشوش الأدراج، الرأسيات وكل حاجة ظاهرة من قدام" },
+    { "id": "drawer_box", "name": "كونتر 16", "thickness": 16, "use": "جوانب وظهور صناديق الأدراج" },
+    { "id": "back", "name": "ضهر 5 مم", "thickness": 5, "use": "الضهور في مجرى، وقيعان الأدراج" },
+    { "id": "boardium", "name": "بورديوم أبيض", "thickness": 18, "use": "قاع دولاب الحوض أو أي مكان فيه مية" },
+    { "id": "solid_pine", "name": "خشب موسكي", "thickness": 40, "use": "دعامات وعوارض خشب مصمت" },
+    { "id": "slats", "name": "شرائح سرير", "thickness": 18, "use": "شرائح قاعدة السرير (تتشترى جاهزة)" }
+  ],
+  "construction": {
+    "panel_thickness": 18,
+    "back_thickness": 5,
+    "back_groove_width": 5,
+    "back_groove_depth": 7,
+    "door_outer_clearance": 1.5,
+    "door_between_clearance": 3,
+    "door_vertical_clearance": 4.5,
+    "min_door_width": 100,
+    "min_drawer_front": 60,
+    "drawer_box_side": 16,
+    "drawer_box_bottom": 5,
+    "drawer_box_max_height": 250,
+    "base_leg_height": 110,
+    "base_cabinet_height": 774,
+    "wall_cabinet_height": 710,
+    "tall_cabinet_height": 2438,
+    "hinge_inset_from_door_end": 50,
+    "third_hinge_from_door_height": 1300,
+    "no_shelves_below_height": 550
+  },
+  "text_rules": [
+    "الهيكل كونتر أبيض 18 مم، والضلف والوشوش PVC كريمي 18 مم",
+    "الضهر 5 مم داخل مجرى عرضه 5 وعمقه 7 مم",
+    "كل قطعة لازم تطلع من لوح 244 × 122 سم، ولو أطول تتقسم",
+    "خلوص الضلف: 1.5 مم من بره، 3 مم بين ضلفتين، 4.5 مم فوق وتحت",
+    "أقل عرض للضلفة 10 سم، وأقل وش درج 6 سم، وصندوق الدرج أعلى حاجة 25 سم",
+    "جوانب صناديق الأدراج 16 مم وقاعها 5 مم",
+    "تالت مفصلة لما الضلفة تعدي 130 سم",
+    "شريط حرف PVC على كل الحروف الظاهرة",
+    "التجميع بالمسامير والكامات والدسر، ومفيش مسامير باينة في الوشوش"
+  ],
+  "workers": [
+    { "id": 1, "name": "تامر أبو رقيه" },
+    { "id": 2, "name": "نور نبوي" },
+    { "id": 3, "name": "حوده الصيفي" }
+  ]
+}
