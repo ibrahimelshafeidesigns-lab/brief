@@ -101,7 +101,13 @@
        "w": 18,
        "d": 562,
        "h": 664,
-       "edge_band": "الأمامي"
+       "edge_band": "الأمامي",
+       "cut": {
+        "length": 664,
+        "width": 562,
+        "edge_l": 1,
+        "edge_w": 0
+       }
       },
       {
        "key": "sideR",
@@ -115,7 +121,13 @@
        "w": 18,
        "d": 562,
        "h": 664,
-       "edge_band": "الأمامي"
+       "edge_band": "الأمامي",
+       "cut": {
+        "length": 664,
+        "width": 562,
+        "edge_l": 1,
+        "edge_w": 0
+       }
       },
       {
        "key": "bottom",
@@ -199,7 +211,13 @@
        "w": 297.0,
        "d": 18,
        "h": 627.5,
-       "edge_band": "كل الحروف"
+       "edge_band": "كل الحروف",
+       "cut": {
+        "length": 625.5,
+        "width": 295,
+        "edge_l": 2,
+        "edge_w": 2
+       }
       },
       {
        "key": "door1",
@@ -213,7 +231,13 @@
        "w": 297.0,
        "d": 18,
        "h": 627.5,
-       "edge_band": "كل الحروف"
+       "edge_band": "كل الحروف",
+       "cut": {
+        "length": 625.5,
+        "width": 295,
+        "edge_l": 2,
+        "edge_w": 2
+       }
       }
      ],
      "hardware": [

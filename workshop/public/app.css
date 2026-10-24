@@ -162,3 +162,13 @@ td.num { font-family: var(--mono); font-variant-numeric: tabular-nums; }
 .dim-in { display: flex; flex-direction: column; gap: 3px; font-size: 13px; color: var(--muted); }
 .dim-in input { font: inherit; font-family: var(--mono); font-size: 17px; padding: 9px 8px; border-radius: 10px; border: 1.5px solid var(--line); background: var(--bg); color: var(--ink); width: 100%; min-width: 0; text-align: center; }
 button[disabled] { opacity: .45; cursor: default; }
+
+/* Cut list: one stacked row per part, so it fits a phone screen without sideways scrolling */
+.cuts { list-style: none; margin: 0; padding: 0; }
+.cuts li { padding: 9px 0; border-bottom: 1px solid var(--line); display: grid; gap: 2px; }
+.cuts li:last-child { border-bottom: none; }
+.cut-top { display: flex; justify-content: space-between; gap: 8px; font-size: 15.5px; }
+.cut-qty { font-family: var(--mono); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.cut-size { font-family: var(--mono); font-variant-numeric: tabular-nums; font-size: 16px; direction: ltr; text-align: end; }
+.cut-size small { font-family: inherit; color: var(--muted); }
+.cut-meta { font-size: 13px; color: var(--muted); }

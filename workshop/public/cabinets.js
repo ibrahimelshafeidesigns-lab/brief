@@ -30,23 +30,55 @@
       z: axisMap(legTop || 20, 20, preset.height, H)
     };
     const axes = [["x", "w"], ["y", "d"], ["z", "h"]];
-    return {
-      ...preset, width: W, height: H, depth: D,
-      parts: parts.map(p => {
-        const q = { ...p };
-        for (const [a, s] of axes) {
-          const m = maps[a];
-          if (p[s] <= 25 || isHardware(p)) {
-            const c = m(p[a] + p[s] / 2);
-            q[a] = r1(c - p[s] / 2);
-          } else {
-            const a0 = m(p[a]), a1 = m(p[a] + p[s]);
-            q[a] = r1(a0); q[s] = r1(a1 - a0);
-          }
+    const fronts = parts.filter(isFront);
+    const out = parts.map(p => {
+      const q = { ...p };
+      for (const [a, s] of axes) {
+        const m = maps[a];
+        if (p[s] <= 25 || isHardware(p)) {
+          const c = m(p[a] + p[s] / 2);
+          q[a] = r1(c - p[s] / 2);
+        } else if (isFront(p) && a !== "y") {
+          const [a0, a1] = splitFronts(fronts, a, s, m)(p);
+          q[a] = r1(a0); q[s] = r1(a1 - a0);
+        } else {
+          const a0 = m(p[a]), a1 = m(p[a] + p[s]);
+          q[a] = r1(a0); q[s] = r1(a1 - a0);
         }
-        return q;
-      })
+      }
+      if (p.cut) q.cut = resizeCut(p, q);
+      return q;
+    });
+    return { ...preset, width: W, height: H, depth: D, parts: out };
+  }
+
+  // Fronts keep their gaps: the gaps between doors and drawer fronts and at the cabinet's edges stay as Cabinet Maker
+  // drew them, and the fronts share the rest. A gap is an end and the next start less than 6 mm apart.
+  function splitFronts(fronts, a, s, m) {
+    const lo = Math.min(...fronts.map(f => f[a])), hi = Math.max(...fronts.map(f => f[a] + f[s]));
+    const nLo = m(lo), nHi = m(hi);
+    const L = v => nLo + (v - lo) * (hi > lo ? (nHi - nLo) / (hi - lo) : 1);
+    const starts = fronts.map(f => f[a]), ends = fronts.map(f => f[a] + f[s]);
+    const at = (v, isStart) => {
+      if (v === lo) return nLo;
+      if (v === hi) return nHi;
+      const near = (isStart ? ends : starts).filter(o => isStart ? o <= v && v - o < 6 : o >= v && o - v < 6);
+      if (!near.length) return L(v);
+      const o = isStart ? Math.max(...near) : Math.min(...near), c = (o + v) / 2;
+      return L(c) + (v - c);
     };
+    return p => [at(p[a], true), at(p[a] + p[s], false)];
+  }
+
+  // Cabinet Maker gives each board its cut size (the drawn size less the edge band). On resize the cut size moves
+  // with the drawn size, so the band allowance stays what Cabinet Maker used.
+  function resizeCut(p, q) {
+    const ax = [["w", "x"], ["d", "y"], ["h", "z"]].map(([s]) => s).sort((u, v) => p[u] - p[v]).slice(1);
+    const [s1, s2] = ax;
+    const straight = Math.abs(p[s1] - p.cut.width) + Math.abs(p[s2] - p.cut.length);
+    const crossed = Math.abs(p[s1] - p.cut.length) + Math.abs(p[s2] - p.cut.width);
+    const [sw, sl] = straight <= crossed ? [s1, s2] : [s2, s1];
+    return { ...p.cut, length: r1(q[sl] - (p[sl] - p.cut.length)), width: r1(q[sw] - (p[sw] - p.cut.width)) };
   }
 
   // Type limits may come as {width: [min, max]} or {width: {min, max}}.
@@ -135,13 +167,21 @@
     const rows = new Map();
     for (const p of cab.parts || []) {
       if (isHardware(p)) continue;
-      const [t, wid, len] = [p.w, p.d, p.h].sort((a, b) => a - b);
+      let [t, wid, len] = [p.w, p.d, p.h].sort((a, b) => a - b);
+      if (p.cut && p.cut.length > 0 && p.cut.width > 0) [len, wid] = [p.cut.length, p.cut.width];
       const key = [p.name, len, wid, t, p.material].join("|");
       const row = rows.get(key);
       if (row) row.qty += 1;
-      else rows.set(key, { name: p.name, qty: 1, length: len, width: wid, thickness: p.thickness || t, material: p.material, role: (p.role || "other").replace(/\s+/g, "_"), edge_band: Array.isArray(p.edge_band) ? p.edge_band.join("، ") : (p.edge_band || "") });
+      else rows.set(key, { name: p.name, qty: 1, length: len, width: wid, thickness: p.thickness || t, material: p.material, role: (p.role || "other").replace(/\s+/g, "_"), edge_band: edgeText(p) });
     }
     return [...rows.values()];
+  }
+
+  function edgeText(p) {
+    const e = Array.isArray(p.edge_band) ? p.edge_band.join("، ") : (p.edge_band || "");
+    if (e || !p.cut || (!p.cut.edge_l && !p.cut.edge_w)) return e;
+    const n = v => typeof v === "number" ? ` ×${v}` : "";
+    return [p.cut.edge_l ? `الطول${n(p.cut.edge_l)}` : "", p.cut.edge_w ? `العرض${n(p.cut.edge_w)}` : ""].filter(Boolean).join("، ");
   }
 
   function views(cab) {

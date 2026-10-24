@@ -140,7 +140,7 @@ export function promptCatalog(catalog) {
     ...rest,
     cabinet_types: (cabinet_types || []).map(({ presets, ...t }) => ({
       ...t,
-      presets: (presets || []).map(({ parts, hardware, ...p }) => p)
+      presets: (presets || []).map(({ parts, hardware, cut_list, ...p }) => p)
     })),
     ...(Array.isArray(shop_items) ? { shop_items: shop_items.map(i => ({ name: i.name, code: i.code, unit: i.unit })) } : {})
   };
