@@ -1,0 +1,245 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex">
+<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}img{max-width:100%}</style>
+</head>
+<body>
+<title>Ibrahim &amp; Ali Store</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Sans+Arabic:wght@300;400;500;600&display=swap">
+<style>
+/* A one-page shop on white, matching the portfolio: one big photo, wrapped gold-ruled tabs, then pieces sized by their shape. */
+:root{color-scheme:light;--bg:#ffffff;--bg-2:#f7f6f3;--ink:#1b1b19;--ink-2:#45443f;--muted:#6f6c65;--line:#e9e6e0;--gold:#8f7445;--rule:#b0925f;--gold-soft:#f6f1e7;--on-ink:#ffffff;--shade:rgba(27,27,25,.42);--sans:"IBM Plex Sans Arabic",system-ui,-apple-system,"Segoe UI",Tahoma,sans-serif;--serif:"Cormorant Garamond","IBM Plex Sans Arabic",Georgia,serif;--ease:cubic-bezier(.2,.7,.2,1)}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:300 17px/1.7 var(--sans);-webkit-font-smoothing:antialiased}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
+.wrap{max-width:1240px;margin:auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+button:focus-visible,a:focus-visible,input:focus-visible{outline:1px solid var(--rule);outline-offset:2px}
+.tag{display:block;font-size:11px;font-weight:500;letter-spacing:.2em;text-transform:uppercase;color:var(--gold)}
+
+/* store front */
+.hero{position:relative;display:grid}
+.hero-pic{position:relative;overflow:hidden;aspect-ratio:4/5;max-height:72dvh;width:100%;background:var(--bg-2)}
+.hero-pic img{display:block;width:100%;height:100%;object-fit:cover;object-position:50% 100%}
+.hero-title{position:absolute;z-index:1;top:0;left:0;right:0;padding-block:26px 0;padding-left:max(20px,env(safe-area-inset-left,0px));padding-right:max(20px,env(safe-area-inset-right,0px));color:var(--ink)}
+.hero-title small{color:var(--gold);display:block;font-size:11px;font-weight:500;letter-spacing:.2em;text-transform:uppercase}
+h1{margin:4px 0 0;font:400 clamp(52px,14vw,84px)/1.02 var(--serif);text-wrap:balance}
+.intro{padding-block:20px 18px;padding-left:max(20px,env(safe-area-inset-left,0px));padding-right:max(20px,env(safe-area-inset-right,0px))}
+.intro span{display:block;width:56px;height:1px;background:var(--rule);margin-bottom:14px}
+.intro p{margin:0;max-width:34em;color:var(--ink-2);font-size:16px;line-height:1.6}
+.intro p.note{margin-top:10px;font-size:13px;line-height:1.5;color:var(--muted)}
+
+/* tabs: all five stay in view, as on the portfolio */
+.tabs{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;display:flex;flex-wrap:wrap;justify-content:center;gap:0 14px;padding-block:3px;background:var(--bg);border-bottom:1px solid var(--line)}
+.tabs button{position:relative;flex:none;font:500 11px/1 var(--sans);letter-spacing:.14em;text-transform:uppercase;min-height:38px;padding:0 2px;border:0;background:none;color:var(--muted);cursor:pointer;transition:color .3s}
+.tabs i{position:absolute;left:0;right:0;bottom:6px;height:1px;background:var(--rule);transform:scaleX(0);transition:transform .35s var(--ease)}
+.tabs button[aria-selected="true"]{color:var(--ink)}
+.tabs button[aria-selected="true"] i{transform:scaleX(1)}
+
+/* pieces: long ones get the full width, tall ones sit in pairs */
+.grid{display:grid;gap:30px 12px;padding-block:22px 110px;align-items:start;grid-template-columns:minmax(0,1fr)}
+.grid.pairs{grid-template-columns:repeat(2,minmax(0,1fr))}
+.grid.pairs .span{grid-column:1/-1}
+.card{display:block;width:100%;min-width:0;padding:0;border:0;background:none;cursor:pointer;text-align:left;font:inherit;color:inherit;transition:transform .8s var(--ease),opacity .8s}
+.motion .card.wait{transform:translateY(26px);opacity:.25}
+.pic{display:block;overflow:hidden;border-radius:18px;background:var(--bg-2)}
+.pic img{display:block;width:100%;height:auto;transition:transform .9s var(--ease)}
+@media (hover:hover){.card:hover .pic img{transform:scale(1.045)}}
+.c{display:grid;gap:2px;padding:11px 2px 0}
+.c b{font:500 25px/1.15 var(--serif);text-wrap:balance}
+.c em{font-style:normal;font-size:15px;line-height:1.5;color:var(--ink-2)}
+.c i{font-style:normal;font-size:12.5px;color:var(--muted);line-height:1.4}
+.c strong{font-weight:500;font-size:14.5px;margin-top:3px;font-variant-numeric:tabular-nums}
+.pairs .card:not(.span) .c b{font-size:20px}
+.pairs .card:not(.span) .c em{display:none}
+.pairs .card:not(.span) .c strong{font-size:13.5px}
+footer{border-top:1px solid var(--line);padding-block:26px 110px;display:flex;flex-wrap:wrap;gap:12px 22px;justify-content:space-between;font-size:14px;color:var(--ink-2)}
+footer a{color:var(--ink-2);text-decoration:none;border-bottom:1px solid var(--rule)}
+
+/* sheets */
+[hidden]{display:none!important}
+.back{position:fixed;inset:0;z-index:20;background:var(--shade);display:flex;align-items:flex-end;justify-content:center;animation:fade .25s ease both}
+.sheet{position:relative;display:flex;flex-direction:column;width:min(100%,560px);max-height:92dvh;background:var(--bg);border-radius:22px 22px 0 0;outline:0;animation:up .35s var(--ease) both}
+.scroll{flex:1;min-height:0;overflow:auto;overscroll-behavior:contain;padding:10px 10px 6px}
+.body{padding:0 8px}
+.x{flex:none;width:42px;height:42px;border-radius:50%;border:1px solid var(--line);background:var(--bg);color:var(--ink);font-size:15px;cursor:pointer}
+.sheet>.x{position:absolute;z-index:2;top:20px;right:20px}
+.sheet .pic img{height:auto;max-height:46dvh;object-fit:cover}
+.sheet h2{margin:14px 0 0;font:500 30px/1.12 var(--serif);text-wrap:balance}
+.sheet p{margin:7px 0 0;font-size:15.5px;line-height:1.55;color:var(--ink-2)}
+.lab{margin:18px 0 8px}
+.opts{display:flex;flex-wrap:wrap;gap:8px;padding-bottom:6px}
+.opts button{min-height:44px;padding:0 16px;border-radius:999px;border:1px solid var(--line);background:var(--bg);color:var(--ink);font:400 14.5px var(--sans);cursor:pointer;transition:background .2s,color .2s,border-color .2s}
+.opts button[aria-pressed="true"]{border-color:var(--ink);background:var(--ink);color:var(--on-ink)}
+.only{font-size:15.5px;color:var(--ink);padding-bottom:6px;line-height:1.4}
+.buy{flex:none;display:flex;align-items:center;justify-content:space-between;gap:14px;padding:12px 18px max(14px,env(safe-area-inset-bottom,0px));border-top:1px solid var(--line);background:var(--bg);border-radius:0}
+.buy.stack{display:grid;gap:10px;justify-content:stretch}
+.price{font:500 28px/1 var(--serif);white-space:nowrap;font-variant-numeric:tabular-nums}
+.go{min-height:50px;padding:0 24px;border:0;border-radius:999px;background:var(--ink);color:var(--on-ink);font:500 13px var(--sans);letter-spacing:.08em;text-transform:uppercase;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;gap:10px;cursor:pointer}
+.go svg{width:19px;height:19px;fill:currentColor;flex:none}
+.bar{position:fixed;z-index:15;left:50%;bottom:calc(14px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);width:min(calc(100% - 28px),520px);display:flex;align-items:center;justify-content:space-between;gap:10px;min-height:56px;padding:0 22px;border:0;border-radius:999px;background:var(--ink);color:var(--on-ink);font:400 15px var(--sans);font-variant-numeric:tabular-nums;cursor:pointer;animation:barup .35s var(--ease) both}
+
+/* order */
+.sheet h2.first{margin:6px 54px 12px 0;line-height:42px}
+.row{display:flex;gap:12px;align-items:center;padding-block:12px;border-bottom:1px solid var(--line)}
+.row img{flex:none;width:68px;height:68px;border-radius:12px;object-fit:cover;background:var(--bg-2)}
+.row div.t{flex:1;min-width:0;line-height:1.35;font-size:14.5px}
+.row div.t b{display:block;font:500 19px/1.2 var(--serif)}
+.row div.t span{display:block;color:var(--muted);font-size:13.5px}
+.row div.t strong{display:block;margin-top:2px;font-weight:500;font-size:14px;font-variant-numeric:tabular-nums}
+.step{flex:none;display:flex;align-items:center;gap:2px}
+.step button{width:36px;height:36px;border:1px solid var(--line);border-radius:50%;background:var(--bg);color:var(--ink);font:400 17px/1 var(--sans);cursor:pointer}
+.step output{min-width:20px;text-align:center;font-size:14.5px;font-variant-numeric:tabular-nums}
+.field{display:block;margin-top:16px;font-size:13.5px;color:var(--ink-2)}
+.field input{display:block;width:100%;min-height:46px;margin-top:5px;padding:0 13px;border:1px solid var(--line);border-radius:12px;font:400 16px var(--sans);color:var(--ink);background:var(--bg)}
+.sum{display:flex;justify-content:space-between;align-items:baseline}
+.fine{display:block;margin:0;color:var(--muted);font-size:13px;line-height:1.5;padding-block:12px 8px}
+.fine span{user-select:all;white-space:nowrap}
+.full{width:100%}
+
+@media (min-width:720px){
+ .back{align-items:center}
+ .sheet{border-radius:22px;overflow:hidden}
+ .grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:36px 18px}
+ .grid.pairs{grid-template-columns:repeat(3,minmax(0,1fr))}
+ .grid.pairs .span{grid-column:span 2}
+ .pairs .card:not(.span) .c b{font-size:25px}
+ .pairs .card:not(.span) .c em{display:block}
+ .pairs .card:not(.span) .c strong{font-size:14.5px}
+ .hero{max-width:1240px;margin:auto;padding:34px max(16px,env(safe-area-inset-left,0px)) 26px;grid-template-columns:minmax(0,1fr) 340px;grid-template-rows:auto 1fr;gap:0 40px}
+ .hero-pic{grid-column:2;grid-row:1/3;aspect-ratio:4/4.4;max-height:none;border-radius:18px}
+ .hero-title{position:static;grid-column:1;grid-row:1;padding:30px 0 0;color:var(--ink)}
+ .hero-title small{color:var(--gold)}
+ .intro{grid-column:1;grid-row:2;padding:18px 0 0}
+ .tabs{justify-content:flex-start;gap:0 26px}
+}
+@media (min-width:1100px){
+ .grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+ .grid.pairs{grid-template-columns:repeat(4,minmax(0,1fr))}
+}
+@keyframes fade{from{opacity:0}to{opacity:1}}
+@keyframes up{from{transform:translateY(36px);opacity:.3}to{opacity:1}}
+@keyframes barup{from{transform:translate(-50%,36px);opacity:.3}to{transform:translateX(-50%);opacity:1}}
+@keyframes nudge{50%{transform:translateX(-50%) scale(1.03)}}
+.bar.nudge{animation:nudge .4s var(--ease)}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+<header class="hero">
+  <div class="hero-pic"><img src="img/hero.jpg" width="960" height="1200" alt="New wood bedside on tapered legs" fetchpriority="high"></div>
+  <div class="hero-title"><small>Ibrahim &amp; Ali</small><h1>The Store</h1></div>
+  <div class="intro"><span></span>
+    <p>New pieces, made to order for you in our own workshop in Egypt. Choose a size and finish, and send your order on WhatsApp.</p>
+    <p class="note">Sample store: pieces, sizes and prices are placeholders based on market prices, for review only. Pictures show the design; your piece is made to your size and finish.</p>
+  </div>
+</header>
+<div class="wrap">
+  <nav class="tabs" id="tabs" role="tablist" aria-label="Categories"></nav>
+  <main class="grid" id="grid"></main>
+  <footer><span>Made to order. Production and delivery time: to be confirmed on WhatsApp.</span><a href="https://ibrahimelshafeidesigns-lab.github.io/brief/portfolio/">See our full projects</a></footer>
+</div>
+<button class="bar" id="bar" hidden></button>
+<div class="back" id="back" hidden></div>
+<script>
+const WA='201026882950';
+const WOOD=['Light oak','Natural wood','White'];
+const CATS=[['tv','TV Units'],['shoe','Shoe Cabinets'],['ward','Small Wardrobes'],['con','Consoles'],['cab','Basic Cabinets']];
+const PAIRS={tv:1,shoe:1,ward:1,con:1,cab:1},SPAN={s1:1,c1:1,b1:1};
+const SIZE={"t1":[896,1110],"t2":[896,1110],"t3":[896,1110],"t4":[896,1110],"t5":[896,1110],"t6":[896,1110],"s1":[896,1110],"s2":[896,1110],"s3":[896,1110],"s4":[896,1110],"s5":[896,1110],"s6":[896,1110],"s7":[896,1110],"w1":[896,1110],"w2":[896,1110],"w3":[896,1110],"w4":[896,1110],"c1":[896,1110],"c2":[896,1110],"c3":[896,1110],"b1":[896,1110],"b2":[896,1110],"b4":[896,1110],"b5":[896,1110],"b6":[896,1110]};
+const P=[
+ {id:'t1',cat:'tv',name:'Panel TV Unit',img:'img/t1.jpg',text:'Floating unit with soft-cornered panel doors under a wide top.',sizes:[['180 cm',13500],['240 cm',17500],['300 cm',22000]],fin:WOOD},
+ {id:'t2',cat:'tv',name:'Plain Floating TV Unit',img:'img/t2.jpg',text:'Clean flat fronts with a slim overhanging top, fixed to the wall.',sizes:[['150 cm',9500],['180 cm',11500],['240 cm',15000]],fin:['White','Light oak']},
+ {id:'t3',cat:'tv',name:'Wood TV Unit on Legs',img:'img/t3.jpg',text:'Warm wood grain, three wide fronts with a finger pull, on tapered legs.',sizes:[['180 cm',16000],['240 cm',20500]],fin:['Natural wood','Light oak']},
+ {id:'t4',cat:'tv',name:'Floating Unit with Wood Pulls',img:'img/t4.jpg',text:'Long cream fronts, each with a small wood pull.',sizes:[['180 cm',12000],['240 cm',15500]],fin:['Cream','White']},
+ {id:'t5',cat:'tv',name:'Low Block TV Unit',img:'img/t5.jpg',text:'A simple low block on a wide base in light wood.',sizes:[['160 cm',10000],['200 cm',12500]],fin:['Light oak','Natural wood']},
+ {id:'t6',cat:'tv',name:'Open-Centre TV Unit',img:'img/t6.jpg',text:'Two door cabinets with an open shelf in the middle for your devices.',sizes:[['140 cm',9000],['180 cm',11000]],fin:['White with wood top','Light oak']},
+ {id:'s1',cat:'shoe',name:'Four-Door Shoe Cabinet',img:'img/s1.jpg',text:'Slim plain doors under a wood top, made to sit against an entrance wall.',sizes:[['120 cm',10500],['160 cm',13500]],fin:['White with wood top','Light oak']},
+ {id:'s2',cat:'shoe',name:'Shoe Cabinet with Side Shelves',img:'img/s2.jpg',text:'Three flip-down fronts with an open shelf column for plants and keys.',sizes:[['80 cm',8500],['100 cm',10000]],fin:['White with wood frame']},
+ {id:'s3',cat:'shoe',name:'Classic Flip-Down Shoe Cabinet',img:'img/s3.jpg',text:'Framed white fronts with round knobs and a wood top.',sizes:[['60 cm',6000],['80 cm',7500]],fin:['White with wood top']},
+ {id:'s4',cat:'shoe',name:'Entrance Unit with Bench',img:'img/s4.jpg',text:'Tall doors, an open niche and a low bench to sit on while you put your shoes on.',sizes:[['140 cm',15000],['170 cm',18000]],fin:['Dark grey with wood edge']},
+ {id:'s5',cat:'shoe',name:'Angled-Pull Shoe Cabinet',img:'img/s5.jpg',text:'Four doors with angled grey pulls, raised on slim legs.',sizes:[['120 cm',10500],['150 cm',12500]],fin:['Off-white with grey']},
+ {id:'s6',cat:'shoe',name:'Navy Entrance Cabinet',img:'img/s6.jpg',text:'One drawer over two doors, in deep navy with a light top.',sizes:[['80 cm',8500],['100 cm',10000]],fin:['Navy with light top']},
+ {id:'s7',cat:'shoe',name:'Slim Flip-Down Shoe Cabinet',img:'img/s7.jpg',text:'A drawer over three flip-down fronts, narrow enough for a tight entrance.',sizes:[['60 cm',6500],['80 cm',8000]],fin:['Grey wood']},
+ {id:'w1',cat:'ward',name:'Two-Tone Wardrobe',img:'img/w1.jpg',text:'Dark and light doors with a column of drawers.',sizes:[['120 cm',19500],['160 cm',25000]],fin:['Dark with light centre']},
+ {id:'w2',cat:'ward',name:'Round-Handle Wardrobe',img:'img/w2.jpg',text:'Smooth plain doors with large round wood handles.',sizes:[['120 cm',19000],['160 cm',24500]],fin:['White','Light grey']},
+ {id:'w3',cat:'ward',name:'Wood-Centre Wardrobe',img:'img/w3.jpg',text:'Grey side doors around a wood centre with drawers below.',sizes:[['120 cm',20500],['160 cm',26000]],fin:['Grey with wood centre']},
+ {id:'w4',cat:'ward',name:'Grooved White Wardrobe',img:'img/w4.jpg',text:'Grooved framed doors over a row of drawers.',sizes:[['120 cm',21000],['160 cm',27000]],fin:['White']},
+ {id:'c1',cat:'con',name:'Floating Wood Console',img:'img/c1.jpg',text:'A long wood console fixed to the wall, for a hallway or entrance.',sizes:[['100 cm',6500],['150 cm',9000]],fin:['Natural wood','Light oak']},
+ {id:'c2',cat:'con',name:'White Console with Mirror',img:'img/c2.jpg',text:'Two small drawers under a wood-framed mirror.',sizes:[['80 cm',7500],['100 cm',9000]],fin:['White with wood top']},
+ {id:'c3',cat:'con',name:'Long Low Console',img:'img/c3.jpg',text:'A long floating console in warm wood.',sizes:[['120 cm',8500],['160 cm',10500]],fin:['Warm wood']},
+ {id:'b1',cat:'cab',name:'Plain Storage Cabinet',img:'img/b1.jpg',text:'Four plain doors with a clean top and hidden pulls.',sizes:[['120 cm',9000],['160 cm',11500]],fin:['Off-white','White']},
+ {id:'b2',cat:'cab',name:'Five-Drawer Chest',img:'img/b2.jpg',text:'White drawers with round wood knobs and a wood top.',sizes:[['90 cm',9500],['110 cm',11000]],fin:['White with wood top']},
+ {id:'b4',cat:'cab',name:'Wood Bedside on Legs',img:'img/b4.jpg',text:'An open shelf and a small door on tapered legs.',sizes:[['50 cm',3500],['60 cm',4000]],fin:['Natural wood']},
+ {id:'b5',cat:'cab',name:'Framed Bedside',img:'img/b5.jpg',text:'Two white drawers with round knobs in a wood frame.',sizes:[['50 cm',3500],['60 cm',4000]],fin:['White with wood frame']},
+ {id:'b6',cat:'cab',name:'White Bedside',img:'img/b6.jpg',text:'Two plain drawers with a small wood pull.',sizes:[['45 cm',3000],['55 cm',3500]],fin:['White']}
+];
+const $=s=>document.querySelector(s),$$=s=>document.querySelectorAll(s),money=n=>n.toLocaleString('en-US')+' EGP',esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const calm=matchMedia('(prefers-reduced-motion:reduce)').matches;if(!calm)document.documentElement.classList.add('motion');
+const seen=calm||!('IntersectionObserver' in window)?null:new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.remove('wait');seen.unobserve(e.target)}}),{rootMargin:'0px 0px -6% 0px'});
+let order=[],lastFocus=null,inHistory=false;
+const picture=p=>{const [w,h]=SIZE[p.id];return `<img src="${p.img}" width="${w}" height="${h}" alt="${esc(p.name)}" loading="lazy" decoding="async">`};
+function showTab(t,jump){
+ $$('#tabs button').forEach(b=>b.setAttribute('aria-selected',b.dataset.t===t));
+ $('#grid').className='grid'+(PAIRS[t]?' pairs':'');
+ $('#grid').innerHTML=P.filter(p=>p.cat===t).map(p=>`<button class="card wait${SPAN[p.id]?' span':''}" data-id="${p.id}"><span class="pic">${picture(p)}</span><span class="c"><b>${esc(p.name)}</b><em>${esc(p.text)}</em><i>New, made to order</i><strong>From ${money(p.sizes[0][1])}</strong></span></button>`).join('');
+ let k=0;$$('.card').forEach(c=>{if(seen){c.style.transitionDelay=Math.min(k++,3)*70+'ms';seen.observe(c)}else c.classList.remove('wait')});
+ if(jump){const top=$('#tabs').parentElement.getBoundingClientRect().top+scrollY;if(scrollY>top)scrollTo(0,top)}
+}
+$('#tabs').innerHTML=CATS.map(c=>`<button role="tab" data-t="${c[0]}">${c[1]}<i></i></button>`).join('');
+$('#tabs').onclick=e=>{const b=e.target.closest('button');if(b)showTab(b.dataset.t,true)};
+$('#grid').onclick=e=>{const c=e.target.closest('.card');if(c)openPiece(c.dataset.id)};
+function hideSheet(){$('#back').hidden=true;$('#back').innerHTML='';document.body.style.overflow='';if(lastFocus){lastFocus.focus({preventScroll:true});lastFocus=null}}
+function closeSheet(){if($('#back').hidden)return;if(inHistory){inHistory=false;hideSheet();try{history.back()}catch(e){}}else hideSheet()}
+addEventListener('popstate',()=>{if(inHistory){inHistory=false;hideSheet()}});
+$('#back').addEventListener('click',e=>{if(e.target.id==='back'||e.target.closest('.x'))closeSheet()});
+addEventListener('keydown',e=>{if(e.key==='Escape')closeSheet()});
+function openSheet(h,label){
+ const was=!$('#back').hidden;
+ $('#back').innerHTML=`<div class="sheet" role="dialog" aria-modal="true" aria-label="${esc(label)}" tabindex="-1">${h}</div>`;
+ if(!was){lastFocus=document.activeElement;$('#back').hidden=false;document.body.style.overflow='hidden';try{history.pushState({sheet:1},'');inHistory=true}catch(e){inHistory=false}$('.sheet').focus({preventScroll:true})}
+ else $('.sheet').style.animation='none';
+}
+function openPiece(id){
+ const p=P.find(x=>x.id===id);let s=0,f=0;
+ const pick=(k,list,fmt)=>list.length>1
+  ?`<div class="opts" data-k="${k}">${list.map((z,i)=>`<button data-i="${i}" aria-pressed="${i===0}">${esc(fmt(z))}</button>`).join('')}</div>`
+  :`<div class="only">${esc(fmt(list[0]))}</div>`;
+ openSheet(`<button class="x" aria-label="Close">✕</button><div class="scroll"><span class="pic">${picture(p)}</span><div class="body"><h2>${esc(p.name)}</h2><p>${esc(p.text)}</p>
+ <small class="tag lab">Size</small>${pick('s',p.sizes,z=>z[0])}
+ <small class="tag lab">Finish</small>${pick('f',p.fin,z=>z)}</div></div>
+ <div class="buy"><span class="price" id="price">${money(p.sizes[0][1])}</span><button class="go" id="add">Add to order</button></div>`,p.name);
+ $$('.opts').forEach(o=>o.onclick=e=>{const b=e.target.closest('button');if(!b)return;
+  if(o.dataset.k==='s'){s=+b.dataset.i;$('#price').textContent=money(p.sizes[s][1])}else f=+b.dataset.i;
+  o.querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed',x===b))});
+ $('#add').onclick=()=>{const size=p.sizes[s][0],fin=p.fin[f],same=order.find(o=>o.p===p&&o.size===size&&o.fin===fin);
+  if(same)same.qty++;else order.push({p,size,price:p.sizes[s][1],fin,qty:1});
+  closeSheet();bar(true)};
+}
+const count=()=>order.reduce((a,o)=>a+o.qty,0),total=()=>order.reduce((a,o)=>a+o.price*o.qty,0);
+function bar(nudge){const b=$('#bar');b.hidden=!order.length;b.innerHTML=`<span>Your order (${count()})</span><span>${money(total())}</span>`;if(nudge){b.classList.remove('nudge');void b.offsetWidth;b.classList.add('nudge')}}
+$('#bar').onclick=()=>openOrder();
+function waLink(area){
+ const lines=['Hello, I would like to order:',...order.map((o,i)=>`${i+1}. ${o.qty>1?o.qty+' x ':''}${o.p.name}, ${o.size}, ${o.fin}: ${money(o.price*o.qty)}`),'Total: '+money(total())];
+ if(area)lines.push('My area: '+area);
+ return 'https://wa.me/'+WA+'?text='+encodeURIComponent(lines.join('\n'));
+}
+function openOrder(){
+ const area=$('#area')?$('#area').value:'',keep=$('.scroll')?$('.scroll').scrollTop:0;
+ if(!order.length){closeSheet();return}
+ openSheet(`<button class="x" aria-label="Close">✕</button><div class="scroll"><div class="body"><h2 class="first">Your order</h2>
+ ${order.map((o,i)=>`<div class="row"><img src="${o.p.img}" alt=""><div class="t"><b>${esc(o.p.name)}</b><span>${o.size}, ${esc(o.fin)}</span><strong>${money(o.price*o.qty)}</strong></div><div class="step"><button data-d="-1" data-i="${i}" aria-label="${o.qty>1?'One less':'Remove'} ${esc(o.p.name)}">−</button><output>${o.qty}</output><button data-d="1" data-i="${i}" aria-label="One more ${esc(o.p.name)}">+</button></div></div>`).join('')}
+ <label class="field">Your area (optional)<input id="area" value="${esc(area)}" placeholder="New Cairo, Zayed..." autocomplete="off"></label>
+ <small class="fine">Each piece is made new for your order. Production time, delivery and fitting are confirmed with you on WhatsApp. Nothing is paid here.</small></div></div>
+ <div class="buy stack"><div class="sum"><small class="tag">Total</small><span class="price">${money(total())}</span></div>
+ <a class="go full" id="send" target="_blank" rel="noopener" href="${waLink(area.trim())}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4 0-.5.2-.8l.4-.5c.1-.2.1-.3 0-.5l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.2.3-.9.9-.9 2.2s1 2.5 1.1 2.7c.1.2 1.9 2.9 4.6 4 .6.3 1.1.4 1.5.6.6.2 1.2.2 1.6.1.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.1-1.2-.1-.1-.2-.2-.5-.3Z"/></svg>Send order on WhatsApp</a></div>`,'Your order');
+ $('.scroll').scrollTop=keep;
+ $$('.step button').forEach(b=>b.onclick=()=>{const o=order[+b.dataset.i];o.qty+=+b.dataset.d;if(o.qty<1)order.splice(+b.dataset.i,1);bar();openOrder()});
+ $('#area').oninput=e=>{$('#send').href=waLink(e.target.value.trim())};
+}
+showTab('tv');
+</script>
+
+</body>
+</html>
