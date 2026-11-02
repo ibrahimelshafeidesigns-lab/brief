@@ -25,13 +25,13 @@ button:focus-visible,a:focus-visible{outline:1px solid var(--gold);outline-offse
 .card{display:block;width:100%;padding:0;border:0;border-radius:2px;background:none;cursor:pointer;text-align:left;font:inherit;color:inherit;transition:transform .8s cubic-bezier(.2,.7,.2,1),opacity .8s}
 .card[hidden]{display:none}
 .motion .card.wait{transform:translateY(26px);opacity:.25}
-.pic{position:relative;display:block;aspect-ratio:4/3.2;overflow:hidden;border-radius:2px;background:var(--bg-2)}
+.pic{position:relative;display:block;aspect-ratio:4/3.2;overflow:hidden;border-radius:18px;background:var(--bg-2)}
 .pic img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .9s cubic-bezier(.2,.7,.2,1)}
 .c{display:grid;gap:1px;padding:12px 2px 0}
 .c b{font-family:var(--serif);font-weight:500;font-size:27px;line-height:1.15}
 .c small{font-size:11px;font-weight:500;letter-spacing:.16em;text-transform:uppercase;color:var(--gold)}
 .c em{font-style:normal;font-size:15px;line-height:1.55;color:var(--ink-2);margin-top:5px}
-.n{position:absolute;z-index:1;top:10px;right:10px;padding:3px 9px;border-radius:2px;font-size:11px;font-weight:500;letter-spacing:.06em;color:var(--ink);background:rgba(255,255,255,.9)}
+.n{position:absolute;z-index:1;top:10px;right:10px;padding:3px 9px;border-radius:999px;font-size:11px;font-weight:500;letter-spacing:.06em;color:var(--ink);background:rgba(255,255,255,.9)}
 @media (hover:hover){.card:hover .pic img{transform:scale(1.045)}}
 footer{border-top:1px solid var(--line);padding-block:30px 44px;display:flex;flex-wrap:wrap;gap:14px 22px;align-items:center;justify-content:space-between}
 .wa{display:inline-flex;align-items:center;min-height:48px;padding:0 24px;border-radius:2px;background:var(--ink);color:#fff;font-weight:500;font-size:13px;letter-spacing:.1em;text-transform:uppercase;text-decoration:none}
@@ -44,12 +44,13 @@ footer{border-top:1px solid var(--line);padding-block:30px 44px;display:flex;fle
 #slides{flex:1;min-height:0;display:flex;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;background:var(--bg-2)}
 #slides::-webkit-scrollbar{display:none}
 #slides div{flex:0 0 100%;scroll-snap-align:center;display:flex;align-items:center;justify-content:center;min-width:0}
-#slides img{max-width:100%;max-height:100%;object-fit:contain;display:block;will-change:transform,opacity}
+#slides img{max-width:100%;max-height:100%;object-fit:contain;display:block;border-radius:18px;will-change:transform,opacity}
 #vb{margin:0 auto;max-width:42em;padding:12px 20px 0;font-size:15px;line-height:1.55;color:var(--ink-2);text-align:center}
 #count{text-align:center;padding-top:6px;padding-bottom:max(14px,env(safe-area-inset-bottom,0px));font-size:12px;letter-spacing:.14em;color:var(--muted);font-variant-numeric:tabular-nums}
 .arrow{position:absolute;top:50%;width:44px;height:44px;border-radius:2px;border:1px solid var(--line);background:rgba(255,255,255,.9);color:var(--ink);font-size:20px;cursor:pointer;display:none}
 @media (hover:hover) and (min-width:720px){.arrow{display:block}.tabs{grid-template-columns:repeat(6,auto);justify-content:start;gap:0 26px}.tabs button{padding:0 2px}.tabs button i{left:0;right:0}}
 #prev{left:16px}#next{right:16px}
+.c small,.vh small{display:none}
 @keyframes rise{from{transform:translateY(22px);opacity:.1}to{transform:none;opacity:1}}
 @keyframes fade{from{opacity:0}to{opacity:1}}
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
