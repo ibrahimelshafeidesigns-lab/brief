@@ -22,9 +22,9 @@ button:focus-visible,a:focus-visible,input:focus-visible{outline:1px solid var(-
 
 /* store front */
 .hero{position:relative;display:grid}
-.hero-pic{position:relative;overflow:hidden;aspect-ratio:4/5;max-height:72dvh;width:100%;background:var(--bg-2)}
+.hero-pic{position:relative;overflow:hidden;aspect-ratio:4/5;width:100%;background:var(--bg-2)}
 .hero-pic img{display:block;width:100%;height:100%;object-fit:cover;object-position:50% 100%}
-.hero-title{position:absolute;z-index:1;top:0;left:0;right:0;padding-block:26px 0;padding-left:max(20px,env(safe-area-inset-left,0px));padding-right:max(20px,env(safe-area-inset-right,0px));color:var(--ink)}
+.hero-title{order:-1;padding-block:18px 12px;padding-left:max(20px,env(safe-area-inset-left,0px));padding-right:max(20px,env(safe-area-inset-right,0px));color:var(--ink)}
 .hero-title small{color:var(--gold);display:block;font-size:11px;font-weight:500;letter-spacing:.2em;text-transform:uppercase}
 h1{margin:4px 0 0;font:400 clamp(52px,14vw,84px)/1.02 var(--serif);text-wrap:balance}
 .intro{padding-block:20px 18px;padding-left:max(20px,env(safe-area-inset-left,0px));padding-right:max(20px,env(safe-area-inset-right,0px))}
@@ -33,19 +33,20 @@ h1{margin:4px 0 0;font:400 clamp(52px,14vw,84px)/1.02 var(--serif);text-wrap:bal
 .intro p.note{margin-top:10px;font-size:13px;line-height:1.5;color:var(--muted)}
 
 /* tabs: all five stay in view, as on the portfolio */
-.tabs{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;display:flex;flex-wrap:wrap;justify-content:center;gap:0 14px;padding-block:3px;background:var(--bg);border-bottom:1px solid var(--line)}
-.tabs button{position:relative;flex:none;font:500 11px/1 var(--sans);letter-spacing:.14em;text-transform:uppercase;min-height:38px;padding:0 2px;border:0;background:none;color:var(--muted);cursor:pointer;transition:color .3s}
+.tabs{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;display:flex;flex-wrap:wrap;justify-content:center;gap:0 12px;padding-block:3px;background:var(--bg);border-bottom:1px solid var(--line)}
+.tabs button{position:relative;flex:none;font:500 10.5px/1 var(--sans);letter-spacing:.08em;text-transform:uppercase;min-height:38px;padding:0 2px;border:0;background:none;color:var(--muted);cursor:pointer;transition:color .3s}
 .tabs i{position:absolute;left:0;right:0;bottom:6px;height:1px;background:var(--rule);transform:scaleX(0);transition:transform .35s var(--ease)}
 .tabs button[aria-selected="true"]{color:var(--ink)}
 .tabs button[aria-selected="true"] i{transform:scaleX(1)}
 
 /* pieces: long ones get the full width, tall ones sit in pairs */
-.grid{display:grid;gap:30px 12px;padding-block:22px 110px;align-items:start;grid-template-columns:minmax(0,1fr)}
+.grid{display:grid;gap:30px 12px;padding-block:16px 110px;align-items:start;grid-template-columns:minmax(0,1fr)}
 .grid.pairs{grid-template-columns:repeat(2,minmax(0,1fr))}
 .grid.pairs .span{grid-column:1/-1}
-.card{display:block;width:100%;min-width:0;padding:0;border:0;background:none;cursor:pointer;text-align:left;font:inherit;color:inherit;transition:transform .8s var(--ease),opacity .8s}
-.motion .card.wait{transform:translateY(26px);opacity:.25}
-.pic{display:block;overflow:hidden;border-radius:18px;background:var(--bg-2)}
+.card{display:block;width:100%;min-width:0;padding:0;border:0;background:none;cursor:pointer;text-align:left;font:inherit;color:inherit;}
+.item{position:relative;min-width:0;transition:transform .8s var(--ease),opacity .8s}
+.motion .item.wait{transform:translateY(26px);opacity:.25}
+.pic{position:relative;display:block;overflow:hidden;border-radius:18px;background:var(--bg-2)}
 .pic img{display:block;width:100%;height:auto;transition:transform .9s var(--ease)}
 @media (hover:hover){.card:hover .pic img{transform:scale(1.045)}}
 .c{display:grid;gap:2px;padding:11px 2px 0}
@@ -56,6 +57,41 @@ h1{margin:4px 0 0;font:400 clamp(52px,14vw,84px)/1.02 var(--serif);text-wrap:bal
 .pairs .card:not(.span) .c b{font-size:20px}
 .pairs .card:not(.span) .c em{display:none}
 .pairs .card:not(.span) .c strong{font-size:13.5px}
+.off{position:absolute;z-index:1;top:9px;left:9px;padding:4px 9px;border-radius:999px;background:var(--gold);color:var(--on-ink);font:500 12px/1.2 var(--sans);font-variant-numeric:tabular-nums}
+.quick{position:absolute;z-index:2;top:7px;right:7px;width:38px;height:38px;border:0;border-radius:50%;background:var(--bg);color:var(--ink);font:400 22px/1 var(--sans);box-shadow:0 1px 6px rgba(27,27,25,.18);cursor:pointer;transition:transform .2s var(--ease)}
+.quick:active{transform:scale(.88)}
+.was{display:block;font-weight:300;font-size:12.5px;color:var(--muted);text-decoration:line-through}
+.c strong .now{color:var(--gold)}
+.band{overflow:hidden;background:var(--ink);color:var(--on-ink);font-size:12.5px;line-height:34px;white-space:nowrap}
+.band div{display:inline-block;padding-left:16px;animation:slide 34s linear infinite}
+.band span{margin-right:30px}
+.band span::after{content:"\2022";margin-left:30px;color:var(--rule)}
+.hero-go{position:absolute;z-index:1;left:12px;right:12px;bottom:12px;display:flex;align-items:center;gap:10px;min-height:58px;padding:8px 8px 8px 14px;border:0;border-radius:16px;background:var(--bg);color:var(--ink);text-align:left;font:inherit;cursor:pointer;box-shadow:0 2px 14px rgba(27,27,25,.12)}
+.hero-go span.t{flex:1;min-width:0;line-height:1.25}
+.hero-go b{display:block;font:500 19px/1.15 var(--serif)}
+.hero-go small{font-size:13px;font-weight:500;color:var(--gold)}
+.hero-go small s{font-weight:300;color:var(--muted);margin-left:5px}
+.hero-go em{flex:none;padding:9px 14px;border-radius:999px;background:var(--ink);color:var(--on-ink);font:500 11px var(--sans);letter-spacing:.08em;text-transform:uppercase;font-style:normal}
+.hero-pic img.next{position:absolute;inset:0;opacity:0;transition:opacity .9s ease}
+.hero-pic img.next.show{opacity:1}
+.intro .go{margin-top:14px}
+.rooms{display:grid;grid-auto-flow:column;grid-auto-columns:112px;gap:10px;overflow-x:auto;scrollbar-width:none;padding-block:4px 16px}
+.rooms::-webkit-scrollbar{display:none}
+.rooms button{padding:0;border:0;background:none;font:400 13px/1.3 var(--sans);color:var(--ink);text-align:center;cursor:pointer}
+.rooms img{display:block;width:100%;aspect-ratio:1;object-fit:cover;border-radius:18px;margin-bottom:6px;background:var(--bg-2)}
+.tabs button[data-t="offers"]{color:var(--gold)}
+.head{display:flex;align-items:baseline;justify-content:space-between;gap:10px;padding-top:18px}
+.head h2{margin:0;font:400 30px/1.1 var(--serif)}
+.head h2 small{font:300 13px var(--sans);color:var(--muted);margin-left:6px;white-space:nowrap}
+.head select{min-height:36px;max-width:46%;padding:0 6px;border:1px solid var(--line);border-radius:10px;background:var(--bg);color:var(--ink-2);font:400 13px var(--sans)}
+.toast{position:fixed;z-index:30;left:50%;top:calc(12px + env(safe-area-inset-top,0px));transform:translate(-50%,-70px);max-width:calc(100% - 28px);padding:10px 16px;border-radius:999px;background:var(--ink);color:var(--on-ink);font-size:13.5px;line-height:1.3;transition:transform .35s var(--ease);pointer-events:none}
+.toast.show{transform:translate(-50%,0)}
+.save{display:block;margin-top:4px;font-size:12.5px;font-weight:500;color:var(--gold)}
+.save s{font-weight:300;color:var(--muted);margin-right:6px}
+.ask{display:inline-block;margin-top:16px;font-size:14px;color:var(--ink-2);text-decoration:none;border-bottom:1px solid var(--rule)}
+.also{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;padding-bottom:10px}
+.also button{padding:0;border:0;background:none;text-align:left;font:400 12.5px/1.3 var(--sans);color:var(--ink);cursor:pointer}
+.also img{display:block;width:100%;height:auto;border-radius:12px;margin-bottom:5px}
 footer{border-top:1px solid var(--line);padding-block:26px 110px;display:flex;flex-wrap:wrap;gap:12px 22px;justify-content:space-between;font-size:14px;color:var(--ink-2)}
 footer a{color:var(--ink-2);text-decoration:none;border-bottom:1px solid var(--rule)}
 
@@ -76,6 +112,7 @@ footer a{color:var(--ink-2);text-decoration:none;border-bottom:1px solid var(--r
 .opts button[aria-pressed="true"]{border-color:var(--ink);background:var(--ink);color:var(--on-ink)}
 .only{font-size:15.5px;color:var(--ink);padding-bottom:6px;line-height:1.4}
 .buy{flex:none;display:flex;align-items:center;justify-content:space-between;gap:14px;padding:12px 18px max(14px,env(safe-area-inset-bottom,0px));border-top:1px solid var(--line);background:var(--bg);border-radius:0}
+.buy .go{white-space:nowrap;padding:0 20px}
 .buy.stack{display:grid;gap:10px;justify-content:stretch}
 .price{font:500 28px/1 var(--serif);white-space:nowrap;font-variant-numeric:tabular-nums}
 .go{min-height:50px;padding:0 24px;border:0;border-radius:999px;background:var(--ink);color:var(--on-ink);font:500 13px var(--sans);letter-spacing:.08em;text-transform:uppercase;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;gap:10px;cursor:pointer}
@@ -105,13 +142,13 @@ footer a{color:var(--ink-2);text-decoration:none;border-bottom:1px solid var(--r
  .sheet{border-radius:22px;overflow:hidden}
  .grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:36px 18px}
  .grid.pairs{grid-template-columns:repeat(3,minmax(0,1fr))}
- .grid.pairs .span{grid-column:span 2}
+ .grid.pairs .span{grid-column:auto}
  .pairs .card:not(.span) .c b{font-size:25px}
  .pairs .card:not(.span) .c em{display:block}
  .pairs .card:not(.span) .c strong{font-size:14.5px}
  .hero{max-width:1240px;margin:auto;padding:34px max(16px,env(safe-area-inset-left,0px)) 26px;grid-template-columns:minmax(0,1fr) 340px;grid-template-rows:auto 1fr;gap:0 40px}
  .hero-pic{grid-column:2;grid-row:1/3;aspect-ratio:4/4.4;max-height:none;border-radius:18px}
- .hero-title{position:static;grid-column:1;grid-row:1;padding:30px 0 0;color:var(--ink)}
+ .hero-title{order:0;grid-column:1;grid-row:1;padding:30px 0 0;color:var(--ink)}
  .hero-title small{color:var(--gold)}
  .intro{grid-column:1;grid-row:2;padding:18px 0 0}
  .tabs{justify-content:flex-start;gap:0 26px}
@@ -120,6 +157,7 @@ footer a{color:var(--ink-2);text-decoration:none;border-bottom:1px solid var(--r
  .grid{grid-template-columns:repeat(3,minmax(0,1fr))}
  .grid.pairs{grid-template-columns:repeat(4,minmax(0,1fr))}
 }
+@keyframes slide{to{transform:translateX(-50%)}}
 @keyframes fade{from{opacity:0}to{opacity:1}}
 @keyframes up{from{transform:translateY(36px);opacity:.3}to{opacity:1}}
 @keyframes barup{from{transform:translate(-50%,36px);opacity:.3}to{transform:translateX(-50%);opacity:1}}
@@ -127,26 +165,32 @@ footer a{color:var(--ink-2);text-decoration:none;border-bottom:1px solid var(--r
 .bar.nudge{animation:nudge .4s var(--ease)}
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 </style>
+<div class="band" aria-label="Opening offer: up to 15% off selected pieces"><div aria-hidden="true" id="band"></div></div>
 <header class="hero">
-  <div class="hero-pic"><img src="img/hero.jpg" width="960" height="1200" alt="New wood bedside on tapered legs" fetchpriority="high"></div>
+  <div class="hero-pic" id="heroPic"><img id="heroA" src="img/hero.jpg" width="896" height="1110" alt="" fetchpriority="high"><img id="heroB" class="next" width="896" height="1110" alt=""><button class="hero-go" id="heroGo"></button></div>
   <div class="hero-title"><small>Ibrahim &amp; Ali</small><h1>The Store</h1></div>
   <div class="intro"><span></span>
     <p>New pieces, made to order for you in our own workshop in Egypt. Choose a size and finish, and send your order on WhatsApp.</p>
-    <p class="note">Sample store: pieces, sizes and prices are placeholders based on market prices, for review only. Pictures show the design; your piece is made to your size and finish.</p>
+    <button class="go" id="toOffers">See the offers</button>
+    <p class="note">Sample store: pieces, sizes, prices and offers are placeholders based on market prices, for review only. Pictures show the design; your piece is made to your size and finish.</p>
   </div>
 </header>
 <div class="wrap">
+  <div class="rooms" id="rooms"></div>
   <nav class="tabs" id="tabs" role="tablist" aria-label="Categories"></nav>
+  <div class="head" id="head"><h2 id="title"></h2><select id="sort" aria-label="Sort pieces"><option value="">Sort</option><option value="low">Price: low to high</option><option value="high">Price: high to low</option></select></div>
   <main class="grid" id="grid"></main>
   <footer><span>Made to order. Production and delivery time: to be confirmed on WhatsApp.</span><a href="https://ibrahimelshafeidesigns-lab.github.io/brief/portfolio/">See our full projects</a></footer>
 </div>
 <button class="bar" id="bar" hidden></button>
 <div class="back" id="back" hidden></div>
+<div class="toast" id="toast" role="status"></div>
 <script>
 const WA='201026882950';
 const WOOD=['Light oak','Natural wood','White'];
-const CATS=[['tv','TV Units'],['shoe','Shoe Cabinets'],['ward','Small Wardrobes'],['con','Consoles'],['cab','Basic Cabinets']];
-const PAIRS={tv:1,shoe:1,ward:1,con:1,cab:1},SPAN={s1:1,c1:1,b1:1};
+const CATS=[['offers','Offers'],['tv','TV Units'],['shoe','Shoe Cabinets'],['ward','Small Wardrobes'],['con','Consoles'],['cab','Basic Cabinets']];
+const OFF={t1:10,t3:15,t5:10,s1:10,s4:15,s6:10,w2:15,w4:10,c1:10,c3:15,b2:10,b5:15};
+const ROOMS={tv:'t3',shoe:'s4',ward:'w1',con:'c2',cab:'b5'},SLIDES=['b4','w2','s4','t3','b5'];
 const SIZE={"t1":[896,1110],"t2":[896,1110],"t3":[896,1110],"t4":[896,1110],"t5":[896,1110],"t6":[896,1110],"s1":[896,1110],"s2":[896,1110],"s3":[896,1110],"s4":[896,1110],"s5":[896,1110],"s6":[896,1110],"s7":[896,1110],"w1":[896,1110],"w2":[896,1110],"w3":[896,1110],"w4":[896,1110],"c1":[896,1110],"c2":[896,1110],"c3":[896,1110],"b1":[896,1110],"b2":[896,1110],"b4":[896,1110],"b5":[896,1110],"b6":[896,1110]};
 const P=[
  {id:'t1',cat:'tv',name:'Panel TV Unit',img:'img/t1.jpg',text:'Floating unit with soft-cornered panel doors under a wide top.',sizes:[['180 cm',13500],['240 cm',17500],['300 cm',22000]],fin:WOOD},
@@ -178,18 +222,34 @@ const P=[
 const $=s=>document.querySelector(s),$$=s=>document.querySelectorAll(s),money=n=>n.toLocaleString('en-US')+' EGP',esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const calm=matchMedia('(prefers-reduced-motion:reduce)').matches;if(!calm)document.documentElement.classList.add('motion');
 const seen=calm||!('IntersectionObserver' in window)?null:new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.remove('wait');seen.unobserve(e.target)}}),{rootMargin:'0px 0px -6% 0px'});
-let order=[],lastFocus=null,inHistory=false;
+let order=[],lastFocus=null,inHistory=false,tab='offers',sortBy='';
+const sale=(p,i)=>{const n=p.sizes[i][1],o=OFF[p.id];return o?Math.floor(n*(100-o)/5000)*50:n};
+const wa=t=>'https://wa.me/'+WA+'?text='+encodeURIComponent(t);
 const picture=p=>{const [w,h]=SIZE[p.id];return `<img src="${p.img}" width="${w}" height="${h}" alt="${esc(p.name)}" loading="lazy" decoding="async">`};
 function showTab(t,jump){
+ tab=t;
  $$('#tabs button').forEach(b=>b.setAttribute('aria-selected',b.dataset.t===t));
- $('#grid').className='grid'+(PAIRS[t]?' pairs':'');
- $('#grid').innerHTML=P.filter(p=>p.cat===t).map(p=>`<button class="card wait${SPAN[p.id]?' span':''}" data-id="${p.id}"><span class="pic">${picture(p)}</span><span class="c"><b>${esc(p.name)}</b><em>${esc(p.text)}</em><i>New, made to order</i><strong>From ${money(p.sizes[0][1])}</strong></span></button>`).join('');
- let k=0;$$('.card').forEach(c=>{if(seen){c.style.transitionDelay=Math.min(k++,3)*70+'ms';seen.observe(c)}else c.classList.remove('wait')});
- if(jump){const top=$('#tabs').parentElement.getBoundingClientRect().top+scrollY;if(scrollY>top)scrollTo(0,top)}
+ let list=t==='offers'?P.filter(p=>OFF[p.id]):P.filter(p=>p.cat===t);
+ if(sortBy)list=[...list].sort((a,b)=>sortBy==='low'?sale(a,0)-sale(b,0):sale(b,0)-sale(a,0));
+ $('#title').innerHTML=`${esc(CATS.find(c=>c[0]===t)[1])}<small>${list.length} pieces</small>`;
+ $('#grid').className='grid pairs';
+ $('#grid').innerHTML=list.map((p,i)=>`<article class="item wait${i===0&&list.length%2?' span':''}"><button class="card" data-id="${p.id}"><span class="pic">${OFF[p.id]?`<span class="off">-${OFF[p.id]}%</span>`:''}${picture(p)}</span><span class="c"><b>${esc(p.name)}</b><em>${esc(p.text)}</em><i>New, made to order</i><strong><span class="${OFF[p.id]?'now':''}">From ${money(sale(p,0))}</span>${OFF[p.id]?`<span class="was">${money(p.sizes[0][1])}</span>`:''}</strong></span></button><button class="quick" data-q="${p.id}" aria-label="Add ${esc(p.name)} to order">+</button></article>`).join('');
+ let k=0;$$('.item').forEach(c=>{if(seen){c.style.transitionDelay=Math.min(k++,3)*70+'ms';seen.observe(c)}else c.classList.remove('wait')});
+ if(jump)goShop(jump==='force');
 }
+function goShop(force){const top=$('#head').getBoundingClientRect().top+scrollY-$('#tabs').offsetHeight-6;if(force||scrollY>top)scrollTo({top,behavior:calm?'auto':'smooth'})}
 $('#tabs').innerHTML=CATS.map(c=>`<button role="tab" data-t="${c[0]}">${c[1]}<i></i></button>`).join('');
 $('#tabs').onclick=e=>{const b=e.target.closest('button');if(b)showTab(b.dataset.t,true)};
-$('#grid').onclick=e=>{const c=e.target.closest('.card');if(c)openPiece(c.dataset.id)};
+$('#grid').onclick=e=>{const q=e.target.closest('.quick');if(q){addPiece(P.find(x=>x.id===q.dataset.q),0,0);return}const c=e.target.closest('.card');if(c)openPiece(c.dataset.id)};
+$('#sort').onchange=e=>{sortBy=e.target.value;showTab(tab)};
+$('#rooms').innerHTML=Object.entries(ROOMS).map(([c,id])=>`<button data-t="${c}"><img src="img/${id}.jpg" alt="" loading="lazy">${esc(CATS.find(x=>x[0]===c)[1])}</button>`).join('');
+$('#rooms').onclick=e=>{const b=e.target.closest('button');if(b)showTab(b.dataset.t,'force')};
+$('#toOffers').onclick=()=>showTab('offers','force');
+$('#band').innerHTML=Array(2).fill(['Opening offer: up to 15% off selected pieces','Made new in our workshop','Your size, your finish','Order on WhatsApp','Nothing is paid here'].map(t=>`<span>${t}</span>`).join('')).join('');
+let slide=0;const showSlide=()=>{const p=P.find(x=>x.id===SLIDES[slide]);$('#heroGo').dataset.id=p.id;$('#heroGo').innerHTML=`<span class="t"><b>${esc(p.name)}</b><small>From ${money(sale(p,0))}${OFF[p.id]?`<s>${money(p.sizes[0][1])}</s>`:''}</small></span><em>View</em>`};
+$('#heroGo').onclick=e=>openPiece(e.currentTarget.dataset.id);
+const rotate=()=>{if(!$('#back').hidden||document.hidden)return;slide=(slide+1)%SLIDES.length;const p=P.find(x=>x.id===SLIDES[slide]),b=$('#heroB'),a=$('#heroA');b.onload=()=>{b.onload=null;b.classList.add('show');showSlide();setTimeout(()=>{a.src=b.src;b.style.transition='none';b.classList.remove('show');void b.offsetWidth;b.style.transition=''},950)};b.src=p.img};
+showSlide();if(!calm)setInterval(rotate,4500);
 function hideSheet(){$('#back').hidden=true;$('#back').innerHTML='';document.body.style.overflow='';if(lastFocus){lastFocus.focus({preventScroll:true});lastFocus=null}}
 function closeSheet(){if($('#back').hidden)return;if(inHistory){inHistory=false;hideSheet();try{history.back()}catch(e){}}else hideSheet()}
 addEventListener('popstate',()=>{if(inHistory){inHistory=false;hideSheet()}});
@@ -201,29 +261,40 @@ function openSheet(h,label){
  if(!was){lastFocus=document.activeElement;$('#back').hidden=false;document.body.style.overflow='hidden';try{history.pushState({sheet:1},'');inHistory=true}catch(e){inHistory=false}$('.sheet').focus({preventScroll:true})}
  else $('.sheet').style.animation='none';
 }
+function addPiece(p,s,f){
+ const size=p.sizes[s][0],fin=p.fin[f],same=order.find(o=>o.p===p&&o.size===size&&o.fin===fin);
+ if(same)same.qty++;else order.push({p,size,price:sale(p,s),was:p.sizes[s][1],fin,qty:1});
+ bar(true);toast(`Added: ${p.name}, ${size}`);
+}
+let toastT;function toast(t){const x=$('#toast');x.textContent=t;x.classList.add('show');clearTimeout(toastT);toastT=setTimeout(()=>x.classList.remove('show'),2200)}
 function openPiece(id){
  const p=P.find(x=>x.id===id);let s=0,f=0;
  const pick=(k,list,fmt)=>list.length>1
   ?`<div class="opts" data-k="${k}">${list.map((z,i)=>`<button data-i="${i}" aria-pressed="${i===0}">${esc(fmt(z))}</button>`).join('')}</div>`
   :`<div class="only">${esc(fmt(list[0]))}</div>`;
- openSheet(`<button class="x" aria-label="Close">✕</button><div class="scroll"><span class="pic">${picture(p)}</span><div class="body"><h2>${esc(p.name)}</h2><p>${esc(p.text)}</p>
+ const also=P.filter(x=>x.cat===p.cat&&x.id!==p.id).slice(0,3);
+ const save=()=>OFF[p.id]?`<span class="save">You save ${money(p.sizes[s][1]-sale(p,s))}</span>`:'';
+ openSheet(`<button class="x" aria-label="Close">✕</button><div class="scroll"><span class="pic">${OFF[p.id]?`<span class="off">-${OFF[p.id]}%</span>`:''}${picture(p)}</span><div class="body"><h2>${esc(p.name)}</h2><p>${esc(p.text)}</p>
  <small class="tag lab">Size</small>${pick('s',p.sizes,z=>z[0])}
- <small class="tag lab">Finish</small>${pick('f',p.fin,z=>z)}</div></div>
- <div class="buy"><span class="price" id="price">${money(p.sizes[0][1])}</span><button class="go" id="add">Add to order</button></div>`,p.name);
+ <small class="tag lab">Finish</small>${pick('f',p.fin,z=>z)}
+ <a class="ask" target="_blank" rel="noopener" href="${wa('Hello, I have a question about the '+p.name+'.')}">Ask about this piece on WhatsApp</a>
+ ${also.length?`<small class="tag lab">You may also like</small><div class="also">${also.map(x=>`<button data-go="${x.id}"><img src="${x.img}" alt="" loading="lazy">${esc(x.name)}</button>`).join('')}</div>`:''}</div></div>
+ <div class="buy"><span><span class="price" id="price">${money(sale(p,0))}</span><span id="save">${save()}</span></span><button class="go" id="add">Add to order</button></div>`,p.name);
+ $('.scroll').scrollTop=0;
  $$('.opts').forEach(o=>o.onclick=e=>{const b=e.target.closest('button');if(!b)return;
-  if(o.dataset.k==='s'){s=+b.dataset.i;$('#price').textContent=money(p.sizes[s][1])}else f=+b.dataset.i;
+  if(o.dataset.k==='s'){s=+b.dataset.i;$('#price').textContent=money(sale(p,s));$('#save').innerHTML=save()}else f=+b.dataset.i;
   o.querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed',x===b))});
- $('#add').onclick=()=>{const size=p.sizes[s][0],fin=p.fin[f],same=order.find(o=>o.p===p&&o.size===size&&o.fin===fin);
-  if(same)same.qty++;else order.push({p,size,price:p.sizes[s][1],fin,qty:1});
-  closeSheet();bar(true)};
+ $$('[data-go]').forEach(b=>b.onclick=()=>openPiece(b.dataset.go));
+ $('#add').onclick=()=>{closeSheet();addPiece(p,s,f)};
 }
+const saved=()=>order.reduce((a,o)=>a+(o.was-o.price)*o.qty,0);
 const count=()=>order.reduce((a,o)=>a+o.qty,0),total=()=>order.reduce((a,o)=>a+o.price*o.qty,0);
 function bar(nudge){const b=$('#bar');b.hidden=!order.length;b.innerHTML=`<span>Your order (${count()})</span><span>${money(total())}</span>`;if(nudge){b.classList.remove('nudge');void b.offsetWidth;b.classList.add('nudge')}}
 $('#bar').onclick=()=>openOrder();
 function waLink(area){
- const lines=['Hello, I would like to order:',...order.map((o,i)=>`${i+1}. ${o.qty>1?o.qty+' x ':''}${o.p.name}, ${o.size}, ${o.fin}: ${money(o.price*o.qty)}`),'Total: '+money(total())];
+ const lines=['Hello, I would like to order:',...order.map((o,i)=>`${i+1}. ${o.qty>1?o.qty+' x ':''}${o.p.name}, ${o.size}, ${o.fin}: ${money(o.price*o.qty)}${o.was>o.price?' (offer price)':''}`),'Total: '+money(total())];
  if(area)lines.push('My area: '+area);
- return 'https://wa.me/'+WA+'?text='+encodeURIComponent(lines.join('\n'));
+ return wa(lines.join('\n'));
 }
 function openOrder(){
  const area=$('#area')?$('#area').value:'',keep=$('.scroll')?$('.scroll').scrollTop:0;
@@ -232,13 +303,13 @@ function openOrder(){
  ${order.map((o,i)=>`<div class="row"><img src="${o.p.img}" alt=""><div class="t"><b>${esc(o.p.name)}</b><span>${o.size}, ${esc(o.fin)}</span><strong>${money(o.price*o.qty)}</strong></div><div class="step"><button data-d="-1" data-i="${i}" aria-label="${o.qty>1?'One less':'Remove'} ${esc(o.p.name)}">−</button><output>${o.qty}</output><button data-d="1" data-i="${i}" aria-label="One more ${esc(o.p.name)}">+</button></div></div>`).join('')}
  <label class="field">Your area (optional)<input id="area" value="${esc(area)}" placeholder="New Cairo, Zayed..." autocomplete="off"></label>
  <small class="fine">Each piece is made new for your order. Production time, delivery and fitting are confirmed with you on WhatsApp. Nothing is paid here.</small></div></div>
- <div class="buy stack"><div class="sum"><small class="tag">Total</small><span class="price">${money(total())}</span></div>
+ <div class="buy stack"><div class="sum"><small class="tag">Total</small><span class="price">${money(total())}</span></div>${saved()?`<span class="save" style="margin:-6px 0 0;text-align:right">You save ${money(saved())}</span>`:''}
  <a class="go full" id="send" target="_blank" rel="noopener" href="${waLink(area.trim())}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4 0-.5.2-.8l.4-.5c.1-.2.1-.3 0-.5l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.2.3-.9.9-.9 2.2s1 2.5 1.1 2.7c.1.2 1.9 2.9 4.6 4 .6.3 1.1.4 1.5.6.6.2 1.2.2 1.6.1.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.1-1.2-.1-.1-.2-.2-.5-.3Z"/></svg>Send order on WhatsApp</a></div>`,'Your order');
  $('.scroll').scrollTop=keep;
  $$('.step button').forEach(b=>b.onclick=()=>{const o=order[+b.dataset.i];o.qty+=+b.dataset.d;if(o.qty<1)order.splice(+b.dataset.i,1);bar();openOrder()});
  $('#area').oninput=e=>{$('#send').href=waLink(e.target.value.trim())};
 }
-showTab('tv');
+showTab('offers');
 </script>
 
 </body>
