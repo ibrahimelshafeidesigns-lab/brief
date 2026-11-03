@@ -92,6 +92,18 @@ h1{margin:4px 0 0;font:400 clamp(52px,14vw,84px)/1.02 var(--serif);text-wrap:bal
 .also{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;padding-bottom:10px}
 .also button{padding:0;border:0;background:none;text-align:left;font:400 12.5px/1.3 var(--sans);color:var(--ink);cursor:pointer}
 .also img{display:block;width:100%;height:auto;border-radius:12px;margin-bottom:5px}
+.grid.home{display:block}
+.rail{padding-bottom:30px}
+.rh{display:flex;align-items:baseline;justify-content:space-between;gap:10px;margin-bottom:10px}
+.rh h3{margin:0;font:500 24px/1.15 var(--serif)}
+.rh h3 small{font:300 13px var(--sans);color:var(--muted);margin-left:6px}
+.rh button{flex:none;min-height:36px;padding:0 2px;border:0;background:none;color:var(--gold);font:500 13px var(--sans);cursor:pointer}
+.track{display:grid;grid-auto-flow:column;grid-auto-columns:44%;gap:12px;overflow-x:auto;scrollbar-width:none;scroll-snap-type:x proximity;padding-bottom:2px}
+.track::-webkit-scrollbar{display:none}
+.track .item{scroll-snap-align:start}
+.track .c b{font-size:19px}
+.track .c em{display:none}
+.track .c strong{font-size:13.5px}
 footer{border-top:1px solid var(--line);padding-block:26px 110px;display:flex;flex-wrap:wrap;gap:12px 22px;justify-content:space-between;font-size:14px;color:var(--ink-2)}
 footer a{color:var(--ink-2);text-decoration:none;border-bottom:1px solid var(--rule)}
 
@@ -153,6 +165,7 @@ footer a{color:var(--ink-2);text-decoration:none;border-bottom:1px solid var(--r
  .intro{grid-column:1;grid-row:2;padding:18px 0 0}
  .tabs{justify-content:flex-start;gap:0 26px}
 }
+@media (min-width:720px){.track{grid-auto-columns:23.5%}}
 @media (min-width:1100px){
  .grid{grid-template-columns:repeat(3,minmax(0,1fr))}
  .grid.pairs{grid-template-columns:repeat(4,minmax(0,1fr))}
@@ -188,7 +201,7 @@ footer a{color:var(--ink-2);text-decoration:none;border-bottom:1px solid var(--r
 <script>
 const WA='201026882950';
 const WOOD=['Light oak','Natural wood','White'];
-const CATS=[['offers','Offers'],['tv','TV Units'],['shoe','Shoe Cabinets'],['ward','Small Wardrobes'],['con','Consoles'],['cab','Basic Cabinets']];
+const CATS=[['home','Home'],['offers','Offers'],['tv','TV Units'],['shoe','Shoe Cabinets'],['ward','Small Wardrobes'],['con','Consoles'],['cab','Basic Cabinets']];
 const OFF={t1:10,t3:15,t5:10,s1:10,s4:15,s6:10,w2:15,w4:10,c1:10,c3:15,b2:10,b5:15};
 const ROOMS={tv:'t3',shoe:'s4',ward:'w1',con:'c2',cab:'b5'},SLIDES=['b4','w2','s4','t3','b5'];
 const SIZE={"t1":[896,1110],"t2":[896,1110],"t3":[896,1110],"t4":[896,1110],"t5":[896,1110],"t6":[896,1110],"s1":[896,1110],"s2":[896,1110],"s3":[896,1110],"s4":[896,1110],"s5":[896,1110],"s6":[896,1110],"s7":[896,1110],"w1":[896,1110],"w2":[896,1110],"w3":[896,1110],"w4":[896,1110],"c1":[896,1110],"c2":[896,1110],"c3":[896,1110],"b1":[896,1110],"b2":[896,1110],"b4":[896,1110],"b5":[896,1110],"b6":[896,1110]};
@@ -222,25 +235,35 @@ const P=[
 const $=s=>document.querySelector(s),$$=s=>document.querySelectorAll(s),money=n=>n.toLocaleString('en-US')+' EGP',esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const calm=matchMedia('(prefers-reduced-motion:reduce)').matches;if(!calm)document.documentElement.classList.add('motion');
 const seen=calm||!('IntersectionObserver' in window)?null:new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.remove('wait');seen.unobserve(e.target)}}),{rootMargin:'0px 0px -6% 0px'});
-let order=[],lastFocus=null,inHistory=false,tab='offers',sortBy='';
+let order=[],lastFocus=null,inHistory=false,tab='home',sortBy='';
 const sale=(p,i)=>{const n=p.sizes[i][1],o=OFF[p.id];return o?Math.floor(n*(100-o)/5000)*50:n};
 const wa=t=>'https://wa.me/'+WA+'?text='+encodeURIComponent(t);
 const picture=p=>{const [w,h]=SIZE[p.id];return `<img src="${p.img}" width="${w}" height="${h}" alt="${esc(p.name)}" loading="lazy" decoding="async">`};
+const itemHtml=(p,cls)=>`<article class="item${cls}"><button class="card" data-id="${p.id}"><span class="pic">${OFF[p.id]?`<span class="off">-${OFF[p.id]}%</span>`:''}${picture(p)}</span><span class="c"><b>${esc(p.name)}</b><em>${esc(p.text)}</em><i>New, made to order</i><strong><span class="${OFF[p.id]?'now':''}">From ${money(sale(p,0))}</span>${OFF[p.id]?`<span class="was">${money(p.sizes[0][1])}</span>`:''}</strong></span></button><button class="quick" data-q="${p.id}" aria-label="Add ${esc(p.name)} to order">+</button></article>`;
+const pick=t=>t==='offers'?P.filter(p=>OFF[p.id]):P.filter(p=>p.cat===t);
 function showTab(t,jump){
  tab=t;
  $$('#tabs button').forEach(b=>b.setAttribute('aria-selected',b.dataset.t===t));
- let list=t==='offers'?P.filter(p=>OFF[p.id]):P.filter(p=>p.cat===t);
- if(sortBy)list=[...list].sort((a,b)=>sortBy==='low'?sale(a,0)-sale(b,0):sale(b,0)-sale(a,0));
- $('#title').innerHTML=`${esc(CATS.find(c=>c[0]===t)[1])}<small>${list.length} pieces</small>`;
- $('#grid').className='grid pairs';
- $('#grid').innerHTML=list.map((p,i)=>`<article class="item wait${i===0&&list.length%2?' span':''}"><button class="card" data-id="${p.id}"><span class="pic">${OFF[p.id]?`<span class="off">-${OFF[p.id]}%</span>`:''}${picture(p)}</span><span class="c"><b>${esc(p.name)}</b><em>${esc(p.text)}</em><i>New, made to order</i><strong><span class="${OFF[p.id]?'now':''}">From ${money(sale(p,0))}</span>${OFF[p.id]?`<span class="was">${money(p.sizes[0][1])}</span>`:''}</strong></span></button><button class="quick" data-q="${p.id}" aria-label="Add ${esc(p.name)} to order">+</button></article>`).join('');
- let k=0;$$('.item').forEach(c=>{if(seen){c.style.transitionDelay=Math.min(k++,3)*70+'ms';seen.observe(c)}else c.classList.remove('wait')});
+ if(t==='home'){
+  $('#sort').hidden=true;
+  $('#title').innerHTML=`All furniture<small>${P.length} pieces</small>`;
+  $('#grid').className='grid home';
+  $('#grid').innerHTML=CATS.filter(c=>c[0]!=='home').map(c=>{const l=pick(c[0]);return `<section class="rail"><div class="rh"><h3>${esc(c[1])}<small>${l.length}</small></h3><button data-see="${c[0]}">See all</button></div><div class="track">${l.map(p=>itemHtml(p,'')).join('')}</div></section>`}).join('');
+ }else{
+  $('#sort').hidden=false;
+  let list=pick(t);
+  if(sortBy)list=[...list].sort((a,b)=>sortBy==='low'?sale(a,0)-sale(b,0):sale(b,0)-sale(a,0));
+  $('#title').innerHTML=`${esc(CATS.find(c=>c[0]===t)[1])}<small>${list.length} pieces</small>`;
+  $('#grid').className='grid pairs';
+  $('#grid').innerHTML=list.map((p,i)=>itemHtml(p,' wait'+(i===0&&list.length%2?' span':''))).join('');
+  let k=0;$$('.item').forEach(c=>{if(seen){c.style.transitionDelay=Math.min(k++,3)*70+'ms';seen.observe(c)}else c.classList.remove('wait')});
+ }
  if(jump)goShop(jump==='force');
 }
 function goShop(force){const top=$('#head').getBoundingClientRect().top+scrollY-$('#tabs').offsetHeight-6;if(force||scrollY>top)scrollTo({top,behavior:calm?'auto':'smooth'})}
 $('#tabs').innerHTML=CATS.map(c=>`<button role="tab" data-t="${c[0]}">${c[1]}<i></i></button>`).join('');
 $('#tabs').onclick=e=>{const b=e.target.closest('button');if(b)showTab(b.dataset.t,true)};
-$('#grid').onclick=e=>{const q=e.target.closest('.quick');if(q){addPiece(P.find(x=>x.id===q.dataset.q),0,0);return}const c=e.target.closest('.card');if(c)openPiece(c.dataset.id)};
+$('#grid').onclick=e=>{const g=e.target.closest('[data-see]');if(g){showTab(g.dataset.see,'force');return}const q=e.target.closest('.quick');if(q){addPiece(P.find(x=>x.id===q.dataset.q),0,0);return}const c=e.target.closest('.card');if(c)openPiece(c.dataset.id)};
 $('#sort').onchange=e=>{sortBy=e.target.value;showTab(tab)};
 $('#rooms').innerHTML=Object.entries(ROOMS).map(([c,id])=>`<button data-t="${c}"><img src="img/${id}.jpg" alt="" loading="lazy">${esc(CATS.find(x=>x[0]===c)[1])}</button>`).join('');
 $('#rooms').onclick=e=>{const b=e.target.closest('button');if(b)showTab(b.dataset.t,'force')};
@@ -309,7 +332,7 @@ function openOrder(){
  $$('.step button').forEach(b=>b.onclick=()=>{const o=order[+b.dataset.i];o.qty+=+b.dataset.d;if(o.qty<1)order.splice(+b.dataset.i,1);bar();openOrder()});
  $('#area').oninput=e=>{$('#send').href=waLink(e.target.value.trim())};
 }
-showTab('offers');
+showTab('home');
 </script>
 
 </body>
