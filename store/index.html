@@ -238,7 +238,7 @@ const seen=calm||!('IntersectionObserver' in window)?null:new IntersectionObserv
 let order=[],lastFocus=null,inHistory=false,tab='home',sortBy='';
 const sale=(p,i)=>{const n=p.sizes[i][1],o=OFF[p.id];return o?Math.floor(n*(100-o)/5000)*50:n};
 const wa=t=>'https://wa.me/'+WA+'?text='+encodeURIComponent(t);
-const picture=p=>{const [w,h]=SIZE[p.id];return `<img src="${p.img}" width="${w}" height="${h}" alt="${esc(p.name)}" loading="lazy" decoding="async">`};
+const picture=p=>{const [w,h]=SIZE[p.id];return `<img src="${p.img}" width="${w}" height="${h}" alt="${esc(p.name)}" decoding="async">`};
 const itemHtml=(p,cls)=>`<article class="item${cls}"><button class="card" data-id="${p.id}"><span class="pic">${OFF[p.id]?`<span class="off">-${OFF[p.id]}%</span>`:''}${picture(p)}</span><span class="c"><b>${esc(p.name)}</b><em>${esc(p.text)}</em><i>New, made to order</i><strong><span class="${OFF[p.id]?'now':''}">From ${money(sale(p,0))}</span>${OFF[p.id]?`<span class="was">${money(p.sizes[0][1])}</span>`:''}</strong></span></button><button class="quick" data-q="${p.id}" aria-label="Add ${esc(p.name)} to order">+</button></article>`;
 const pick=t=>t==='offers'?P.filter(p=>OFF[p.id]):P.filter(p=>p.cat===t);
 function showTab(t,jump){
@@ -265,7 +265,7 @@ $('#tabs').innerHTML=CATS.map(c=>`<button role="tab" data-t="${c[0]}">${c[1]}<i>
 $('#tabs').onclick=e=>{const b=e.target.closest('button');if(b)showTab(b.dataset.t,true)};
 $('#grid').onclick=e=>{const g=e.target.closest('[data-see]');if(g){showTab(g.dataset.see,'force');return}const q=e.target.closest('.quick');if(q){addPiece(P.find(x=>x.id===q.dataset.q),0,0);return}const c=e.target.closest('.card');if(c)openPiece(c.dataset.id)};
 $('#sort').onchange=e=>{sortBy=e.target.value;showTab(tab)};
-$('#rooms').innerHTML=Object.entries(ROOMS).map(([c,id])=>`<button data-t="${c}"><img src="img/${id}.jpg" alt="" loading="lazy">${esc(CATS.find(x=>x[0]===c)[1])}</button>`).join('');
+$('#rooms').innerHTML=Object.entries(ROOMS).map(([c,id])=>`<button data-t="${c}"><img src="img/${id}.jpg" alt="">${esc(CATS.find(x=>x[0]===c)[1])}</button>`).join('');
 $('#rooms').onclick=e=>{const b=e.target.closest('button');if(b)showTab(b.dataset.t,'force')};
 $('#toOffers').onclick=()=>showTab('offers','force');
 $('#band').innerHTML=Array(2).fill(['Opening offer: up to 15% off selected pieces','Made new in our workshop','Your size, your finish','Order on WhatsApp','Nothing is paid here'].map(t=>`<span>${t}</span>`).join('')).join('');
@@ -301,7 +301,7 @@ function openPiece(id){
  <small class="tag lab">Size</small>${pick('s',p.sizes,z=>z[0])}
  <small class="tag lab">Finish</small>${pick('f',p.fin,z=>z)}
  <a class="ask" target="_blank" rel="noopener" href="${wa('Hello, I have a question about the '+p.name+'.')}">Ask about this piece on WhatsApp</a>
- ${also.length?`<small class="tag lab">You may also like</small><div class="also">${also.map(x=>`<button data-go="${x.id}"><img src="${x.img}" alt="" loading="lazy">${esc(x.name)}</button>`).join('')}</div>`:''}</div></div>
+ ${also.length?`<small class="tag lab">You may also like</small><div class="also">${also.map(x=>`<button data-go="${x.id}"><img src="${x.img}" alt="">${esc(x.name)}</button>`).join('')}</div>`:''}</div></div>
  <div class="buy"><span><span class="price" id="price">${money(sale(p,0))}</span><span id="save">${save()}</span></span><button class="go" id="add">Add to order</button></div>`,p.name);
  $('.scroll').scrollTop=0;
  $$('.opts').forEach(o=>o.onclick=e=>{const b=e.target.closest('button');if(!b)return;
